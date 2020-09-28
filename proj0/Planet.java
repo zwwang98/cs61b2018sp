@@ -101,4 +101,18 @@ public class Planet {
         // @??? The sign here still confuses me.
     }
 
+    /**
+     *  A method that determines how much the forces exerted on the planet
+     *  will cause that planet to accelerate,
+     *  and the resulting change in the planet’s velocity and position in a small period of time dt
+     * */
+    public void update(double dt, double fX, double fY) {
+        double aX = fX / mass;
+        double aY = fY / mass;
+        this.xxVel += aX * dt;
+        this.yyVel += aY * dt;
+        this.xxPos += xxVel * dt;
+        this.yyPos += yyVel * dt;
+    }
+
 }
