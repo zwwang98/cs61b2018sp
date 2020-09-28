@@ -297,7 +297,7 @@ import javax.swing.KeyStroke;
  *  <p>
  *  <b>Saving to a file.</b>
  *  You save your image to a file using the <em>File → Save</em> menu option.
- *  You can also save a file programatically using the following method:
+ *  You can also save a file programmatically using the following method:
  *  <ul>
  *  <li> {@link #save(String filename)}
  *  </ul>

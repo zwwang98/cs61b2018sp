@@ -36,4 +36,29 @@ public class NBody {
         return planets;
     }
 
+    public static void main(String[] args) {
+        /* First Step: Collecting All Needed Input. */
+        // Store the 0th and 1st command line arguments as doubles named T and dt.
+        // @source: The way to convert a String type value into a double value:
+        // https://stackoverflow.com/questions/5585779/how-do-i-convert-a-string-to-an-int-in-java
+        double T = Double.parseDouble(args[0]);
+        double dt = Double.parseDouble(args[1]);
+        // Store the 2nd command line argument as a String named filename.
+        String filename = args[2];
+        // Read in the planets and the universe radius from the file described
+        // by filename using your methods from earlier in this assignment.
+        Planet[] planets = readPlanets(filename);
+        double r = readRadius(filename);
+
+        /* Drawing the background. */
+        // set the scale so that it matches the radius of the universe
+        StdDraw.setScale(-r, r);
+        StdDraw.clear();
+        StdDraw.picture(0, 0, "images/starfield.jpg");
+
+        /* Drawing all the planets */
+        for (Planet p : planets) {
+            p.draw();
+        }
+    }
 }
