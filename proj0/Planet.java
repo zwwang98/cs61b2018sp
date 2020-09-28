@@ -73,5 +73,32 @@ public class Planet {
         return -f * dy / r; // I don't understand why my sign is reverse.
     }
 
+    /**
+     * Take in an array of Planets and calculate the net X force
+     * exerted by all planets in that array upon the current Planet.
+     * */
+    public double calcNetForceExertedByX(Planet[] planets) {
+        double netForceX = 0.0;
+        for (Planet p : planets) {
+            if (p.equals(this)) continue;
+            netForceX += p.calcForceExertedByX(this);
+        }
+        return -netForceX;
+        // @??? The sign here still confuses me.
+    }
+
+    /**
+     * Take in an array of Planets and calculate the net Y force
+     * exerted by all planets in that array upon the current Planet.
+     * */
+    public double calcNetForceExertedByY(Planet[] planets) {
+        double netForceY = 0.0;
+        for (Planet p : planets) {
+            if (p.equals(this)) continue;
+            netForceY += p.calcForceExertedByY(this);
+        }
+        return -netForceY;
+        // @??? The sign here still confuses me.
+    }
 
 }
