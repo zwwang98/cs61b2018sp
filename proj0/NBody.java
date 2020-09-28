@@ -50,15 +50,40 @@ public class NBody {
         Planet[] planets = readPlanets(filename);
         double r = readRadius(filename);
 
-        /* Drawing the background. */
-        // set the scale so that it matches the radius of the universe
-        StdDraw.setScale(-r, r);
-        StdDraw.clear();
-        StdDraw.picture(0, 0, "images/starfield.jpg");
-
-        /* Drawing all the planets */
-        for (Planet p : planets) {
-            p.draw();
+        /* Animation */
+        // This part is completed following the instructions on the website below:
+        // https://sp18.datastructur.es/materials/proj/proj0/proj0#creating-an-animation
+        StdDraw.enableDoubleBuffering();
+        double t = 0;
+        int n = planets.length; // the number of planets in this universe
+        while (t < T) {
+            // Create an xForces array and yForces array.
+            double[] xForce = new double[n];
+            double[] yForce = new double[n];
+            // Calculate the net x and y forces for each planet,
+            // storing these in the xForces and yForces arrays respectively.
+            for (int i = 0; i < n; i++) {
+                xForce[i] = planets[i].calcNetForceExertedByX(planets);
+                yForce[i] = planets[i].calcNetForceExertedByY(planets);
+                // Call update on each of the planets.
+                // This will update each planet’s position, velocity, and acceleration.
+                planets[i].update(dt, xForce[i], yForce[i]);
+            }
+            // Draw the background image.
+            StdDraw.setScale(-r, r);
+            StdDraw.clear();
+            StdDraw.picture(0, 0, "images/starfield.jpg");
+            // Draw all of the planets.
+            for (Planet p : planets) {
+                p.draw();
+            }
+            // Show the offscreen buffer (see the show method of StdDraw).
+            StdDraw.show();
+            // Pause the animation for 10 milliseconds (see the pause method of StdDraw).
+            // You may need to tweak this on your computer.
+            StdDraw.pause(10);
+            // Increase your time variable by dt.
+            t += dt;
         }
     }
 }
