@@ -11,6 +11,9 @@ public class Planet {
     public double mass;
     // The name of the file that corresponds to the image that depicts the planet (for example, jupiter.gif)
     public String imgFileName;
+    // the Gravitational Constant G
+    private static final double G = 6.67e-11;
+    // I made a bug here. I wrote G = Math.pow(6.67, 10**-11);
 
     // two designated constructor
     public Planet(double xP, double yP, double xV, double yV, double m, String img) {
@@ -37,10 +40,18 @@ public class Planet {
     public double calcDistance(Planet p) {
         double xD = Math.abs(this.xxPos - p.xxPos);
         double yD = Math.abs(this.yyPos - p.yyPos);
-        /*
-        * Math class API of JavaSE 8
-        * @source https://docs.oracle.com/javase/8/docs/api/java/lang/Math.html
-        * */
         return Math.sqrt(xD * xD + yD * yD);
     }
+
+    /**
+     * The calcForceExertedBy method takes in a planet,
+     * and returns a double describing the force exerted on this planet by the given planet.
+     * The sign (positive and negative) is a little trick here.
+     * */
+    public double calcForceExertedBy(Planet p) {
+        double rSquare = this.calcDistance(p);
+        return G * this.mass * p.mass / (rSquare * rSquare);
+    }
+
+
 }
