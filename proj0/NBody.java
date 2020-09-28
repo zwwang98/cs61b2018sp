@@ -85,5 +85,15 @@ public class NBody {
             // Increase your time variable by dt.
             t += dt;
         }
+
+        // @source: https://sp18.datastructur.es/materials/proj/proj0/proj0#printing-the-universe
+        // the instruction says that we can just copy this part of code
+        StdOut.printf("%d\n", planets.length);
+        StdOut.printf("%.2e\n", r);
+        for (int i = 0; i < planets.length; i++) {
+            StdOut.printf("%11.4e %11.4e %11.4e %11.4e %11.4e %12s\n",
+                    planets[i].xxPos, planets[i].yyPos, planets[i].xxVel,
+                    planets[i].yyVel, planets[i].mass, planets[i].imgFileName);
+        }
     }
 }
