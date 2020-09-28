@@ -53,5 +53,25 @@ public class Planet {
         return G * this.mass * p.mass / (rSquare * rSquare);
     }
 
+    /**
+     *  Describe the force exerted in the X direction.
+     * */
+    public double calcForceExertedByX(Planet p) {
+        double dx = this.xxPos - p.xxPos;
+        double r = this.calcDistance(p);
+        double f = this.calcForceExertedBy(p);
+        return -f * dx / r; // I don't understand why my sign is reverse.
+    }
+
+    /**
+     *  Describe the force exerted in the Y direction.
+     * */
+    public double calcForceExertedByY(Planet p) {
+        double dy = this.yyPos - p.yyPos;
+        double r = this.calcDistance(p);
+        double f = this.calcForceExertedBy(p);
+        return -f * dy / r; // I don't understand why my sign is reverse.
+    }
+
 
 }
