@@ -215,7 +215,9 @@ public class ArrayDeque<T> {
         intDeque.addFirst(5);
         intDeque.removeLast(); // expected:<4> but was:<null>
 
-        // Report: https://www.gradescope.com/courses/20666/assignments/85897/submissions/46784180#AD-basic:%20get.
+        // Report:
+        // https://www.gradescope.com/courses/20666/
+        assignments/85897/submissions/46784180#AD-basic:%20get.
         // d011) AD-basic: get. (0.0/1.176)
         // sequence of ArrayDeque operations was as below
         intDeque.addLast(0);
