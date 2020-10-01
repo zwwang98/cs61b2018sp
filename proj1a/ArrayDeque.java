@@ -157,7 +157,7 @@ public class ArrayDeque<T> {
         }
         return arr[actualIndex];
     }
-
+/*
     public static void main(String[] args) {
         ArrayDeque<Integer> intDeque = new ArrayDeque<>();
 
@@ -184,5 +184,5 @@ public class ArrayDeque<T> {
             intDeque.removeLast();
         }
 
-    }
+    }*/
 }

@@ -135,6 +135,7 @@ public class LinkedListDeque<T> {
         }
     }
 
+    /*
     public static void main(String[] args) {
         LinkedListDeque<Integer> intDeque = new LinkedListDeque<>();
 
@@ -184,5 +185,5 @@ public class LinkedListDeque<T> {
         assert (intDeque.size() == 2);
         System.out.println("The size() works properly.");
 
-    }
+    }*/
 }
