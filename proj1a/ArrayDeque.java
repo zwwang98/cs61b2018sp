@@ -104,7 +104,19 @@ public class ArrayDeque<T> {
      * If no such item exists, returns null.
      * */
     public T removeFirst() {
-        return null;
+        T result = null;
+        // find the first item's index
+        if (front == arr.length - 1) {
+            result = arr[0];
+            arr[0] = null;
+            front = 0;
+        } else {
+            result = arr[front + 1];
+            arr[front + 1] = null;
+            front++;
+        }
+        size--;
+        return result;
     }
 
     /**
@@ -112,7 +124,18 @@ public class ArrayDeque<T> {
      * If no such item exists, returns null.
      * */
     public T removeLast() {
-        return null;
+        T result = null;
+        if (end == 0) {
+            result = arr[arr.length - 1];
+            arr[arr.length - 1] = null;
+            end = arr.length - 1;
+        } else {
+            result = arr[end - 1];
+            arr[end - 1] = null;
+            end--;
+        }
+        size--;
+        return result;
     }
 
     /**
