@@ -36,12 +36,18 @@ public class ArrayDeque<T> {
      * Adds an item of type T to the front of the deque.
      * */
     public void addFirst(T item) {
-        arr[front] = item;
-        // treat array as circular
-        if (front == 0) {
+        if (isEmpty()) {
+            arr[0] = item;
             front = arr.length - 1;
+            end = 1;
         } else {
-            front--;
+            arr[front] = item;
+            // treat array as circular
+            if (front == 0) {
+                front = arr.length - 1;
+            } else {
+                front--;
+            }
         }
         size++;
         // resize
@@ -54,12 +60,18 @@ public class ArrayDeque<T> {
      * Adds an item of type T to the back of the deque.
      * */
     public void addLast(T item) {
-        arr[end] = item;
-        // treat array as circular
-        if (end == arr.length - 1) {
-            end = 0;
+        if (isEmpty()) {
+            arr[0] = item;
+            front = arr.length - 1;
+            end = 1;
         } else {
-            end++;
+            arr[end] = item;
+            // treat array as circular
+            if (end == arr.length - 1) {
+                end = 0;
+            } else {
+                end++;
+            }
         }
         size++;
         // resize
@@ -116,7 +128,7 @@ public class ArrayDeque<T> {
             front++;
         }
         // resize if necessary
-        if (size < arr.length / 4) {
+        if (size < arr.length / 4 && arr.length != 8) {
             resize(arr.length / 2);
         }
         size--;
@@ -139,7 +151,7 @@ public class ArrayDeque<T> {
             end--;
         }
         // resize if necessary
-        if (size < arr.length / 4) {
+        if (size < arr.length / 4 && arr.length != 8) {
             resize(arr.length / 2);
         }
         size--;
@@ -157,9 +169,22 @@ public class ArrayDeque<T> {
         }
         return arr[actualIndex];
     }
-/*
+
+    /*
     public static void main(String[] args) {
         ArrayDeque<Integer> intDeque = new ArrayDeque<>();
+
+
+        // Report: https://www.gradescope.com/courses/20666/assignments/85897/submissions/46779393
+        // d003) AD-basic: Random addFirst/removeLast/isEmpty tests. (0.0/1.176)
+        // sequence of ArrayDeque operations was as below
+
+        intDeque.isEmpty();
+        intDeque.addFirst(1);
+        intDeque.removeLast();
+        intDeque.addFirst(3);
+        intDeque.isEmpty();
+        intDeque.removeLast(); // expected 3 but return null
 
         for (int i = 10; i >= 0; i--) {
             intDeque.addFirst(i);
