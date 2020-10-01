@@ -1,4 +1,4 @@
-import javax.sound.sampled.Line;
+
 
 public class LinkedListDeque<T> {
 
@@ -65,7 +65,8 @@ public class LinkedListDeque<T> {
         return size;
     }
 
-    /** Prints the items in the deque from first to last, separated by a space. */
+    /** Prints the items in the deque from first to last,
+     * separated by a space. */
     public void printDeque() {
         Node p = sentinel.next;
         while (p.item != null) {
@@ -80,7 +81,9 @@ public class LinkedListDeque<T> {
      * If no such item exists, returns null.
      * */
     public T removeFirst() {
-        if (isEmpty()) return null;
+        if (isEmpty()) {
+            return null;
+        }
         T result = sentinel.next.item;
         sentinel.next = sentinel.next.next;
         sentinel.next.prev = sentinel;
@@ -93,7 +96,9 @@ public class LinkedListDeque<T> {
      * If no such item exists, returns null.
      * */
     public T removeLast() {
-        if (isEmpty()) return null;
+        if (isEmpty()) {
+            return null;
+        }
         T result = sentinel.prev.item;
         sentinel.prev = sentinel.prev.prev;
         sentinel.prev.next = sentinel;
@@ -109,7 +114,9 @@ public class LinkedListDeque<T> {
      * https://sp18.datastructur.es/materials/proj/proj1a/proj1a
      * */
     public T get(int index) {
-        if (index >= size) return null;
+        if (index >= size) {
+            return null;
+        }
         int i = 0;
         Node p = sentinel.next;
         while (i < index) {

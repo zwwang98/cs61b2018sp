@@ -18,7 +18,7 @@ public class ArrayDeque<T> {
     private void resize(int capacity) {
         T[] newArr = (T[]) new Object[capacity];
         if (front < end) {
-            System.arraycopy(arr,front + 1, newArr, 0, size);
+            System.arraycopy(arr, front + 1, newArr, 0, size);
             arr = newArr;
             front = arr.length - 1;
             end = size;
@@ -116,6 +116,10 @@ public class ArrayDeque<T> {
      * If no such item exists, returns null.
      * */
     public T removeFirst() {
+        // if isEmpty, return null
+        if (isEmpty()) {
+            return null;
+        }
         T result = null;
         // find the first item's index
         if (front == arr.length - 1) {
@@ -127,11 +131,11 @@ public class ArrayDeque<T> {
             arr[front + 1] = null;
             front++;
         }
+        size--;
         // resize if necessary
         if (size < arr.length / 4 && arr.length != 8) {
             resize(arr.length / 2);
         }
-        size--;
         return result;
     }
 
@@ -140,6 +144,10 @@ public class ArrayDeque<T> {
      * If no such item exists, returns null.
      * */
     public T removeLast() {
+        // if isEmpty, return null
+        if (isEmpty()) {
+            return null;
+        }
         T result = null;
         if (end == 0) {
             result = arr[arr.length - 1];
@@ -150,11 +158,11 @@ public class ArrayDeque<T> {
             arr[end - 1] = null;
             end--;
         }
+        size--;
         // resize if necessary
         if (size < arr.length / 4 && arr.length != 8) {
             resize(arr.length / 2);
         }
-        size--;
         return result;
     }
 
@@ -170,21 +178,70 @@ public class ArrayDeque<T> {
         return arr[actualIndex];
     }
 
-    /*
+
     public static void main(String[] args) {
         ArrayDeque<Integer> intDeque = new ArrayDeque<>();
 
-
+        /*
         // Report: https://www.gradescope.com/courses/20666/assignments/85897/submissions/46779393
         // d003) AD-basic: Random addFirst/removeLast/isEmpty tests. (0.0/1.176)
         // sequence of ArrayDeque operations was as below
-
         intDeque.isEmpty();
         intDeque.addFirst(1);
         intDeque.removeLast();
         intDeque.addFirst(3);
         intDeque.isEmpty();
-        intDeque.removeLast(); // expected 3 but return null
+        intDeque.removeLast(); // expected:<3> but was:<null>*/
+
+        /*
+        // Report: https://www.gradescope.com/courses/20666/assignments/85897/submissions/46779393
+        // d005) AD-basic: Random addFirst/removeLast/isEmpty tests. (0.0/1.176)
+        // sequence of ArrayDeque operations was as below
+        intDeque.isEmpty();
+        intDeque.addLast(1);
+        intDeque.removeFirst();
+        intDeque.addLast(3);
+        intDeque.removeFirst(); // expected:<3> but was:<null>*/
+
+        /*
+        // Report: https://www.gradescope.com/courses/20666/assignments/85897/submissions/46779393
+        // d006) AD-basic: Random addFirst/removeLast/isEmpty tests. (0.0/1.176)
+        // sequence of ArrayDeque operations was as below
+        intDeque.addFirst(0);
+        intDeque.addLast(1);
+        intDeque.removeLast();
+        intDeque.removeLast();
+        intDeque.addFirst(4);
+        intDeque.addFirst(5);
+        intDeque.removeLast(); // expected:<4> but was:<null>*/
+
+        // Report: https://www.gradescope.com/courses/20666/assignments/85897/submissions/46784180#AD-basic:%20get.
+        // d011) AD-basic: get. (0.0/1.176)
+        // sequence of ArrayDeque operations was as below
+        intDeque.addLast(0);
+        intDeque.get(0);
+        intDeque.get(0);
+        intDeque.removeLast();
+        intDeque.addLast(4);
+        intDeque.removeFirst();
+        intDeque.addFirst(6);
+        intDeque.addLast(7);
+        intDeque.addLast(8);
+        intDeque.addLast(9);
+        intDeque.get(2);
+        intDeque.addLast(11);
+        intDeque.removeLast();
+        intDeque.addFirst(13);
+        intDeque.addFirst(14);
+        intDeque.removeLast();
+        intDeque.removeFirst();
+        intDeque.removeLast();
+        intDeque.removeLast();
+        intDeque.addLast(19);
+        intDeque.get(2); // expected:<19> but was:<null>
+
+
+
 
         for (int i = 10; i >= 0; i--) {
             intDeque.addFirst(i);
@@ -209,5 +266,5 @@ public class ArrayDeque<T> {
             intDeque.removeLast();
         }
 
-    }*/
+    }
 }
