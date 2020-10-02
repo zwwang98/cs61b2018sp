@@ -1,5 +1,9 @@
 /**
  * Created by jug on 1/22/18.
+ *
+ * The problem here is that the 89th line's data in the "foods.csv" file is wrong, it says
+ * "kroger turnip 0.45 -387128732"
+ * last value represents the number of turnips that the vendor kroger has, this value cannot be negative
  */
 public class DebugExercise3 {
     public static int countTurnips(In in) {
