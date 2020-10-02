@@ -15,7 +15,7 @@ public class TestOffByOne {
         assertFalse(offByOne.equalChars('a', 'a'));
         assertFalse(offByOne.equalChars('a', 'c'));
         assertFalse(offByOne.equalChars('c', 'a'));
-        assertFalse(offByOne.equalChars('A', 'a'));
+        assertFalse(offByOne.equalChars('A', 'b'));
         // according to https://en.wikipedia.org/wiki/ASCII
         // '&' ==> 38
         // '%' ==> 37
