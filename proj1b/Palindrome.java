@@ -40,6 +40,10 @@ public class Palindrome {
         * to sum up, it doesn't matter the word's length is even or odd,
         * we can just use the integer division, it's simple and clear */
         int n = word.length();
+        // "Any word of length 1 or 0 is a palindrome."
+        if (n == 0 || n == 1) {
+            return true;
+        }
         int numOfCmp = n / 2;
         Deque<Character> chars = wordToDeque(word);
         /* in the for loop below, we read the input word forwards and backwards at the same time
@@ -52,6 +56,13 @@ public class Palindrome {
             }
         }
         return true;
+    }
+
+    /** The method will return true if the word is a palindrome
+     * according to the character comparison test provided
+     * by the CharacterComparator passed in as argument cc. */
+    public boolean isPalindrome(String word, CharacterComparator cc) {
+        return false;
     }
 
 }

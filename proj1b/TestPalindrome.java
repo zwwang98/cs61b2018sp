@@ -1,4 +1,7 @@
 import org.junit.Test;
+
+import java.util.Comparator;
+
 import static org.junit.Assert.*;
 
 public class TestPalindrome {
@@ -28,5 +31,21 @@ public class TestPalindrome {
         assertFalse(palindrome.isPalindrome("rancor"));
         assertFalse(palindrome.isPalindrome("aaaaab"));
         assertFalse(palindrome.isPalindrome("Aa"));
+    }
+
+    @Test
+    public void testOverloadedIsPalindrome() {
+        CharacterComparator obo = new OffByOne();
+
+        assertTrue(palindrome.isPalindrome("", obo));
+        assertTrue(palindrome.isPalindrome("a", obo));
+        assertTrue(palindrome.isPalindrome("acdb", obo));
+        assertTrue(palindrome.isPalindrome("flake", obo));
+
+        assertFalse(palindrome.isPalindrome("aa", obo));
+        assertFalse(palindrome.isPalindrome("palindrome", obo));
+        assertFalse(palindrome.isPalindrome("rancor", obo));
+        assertFalse(palindrome.isPalindrome("aaaaab", obo));
+        assertFalse(palindrome.isPalindrome("Aa", obo));
     }
 }
