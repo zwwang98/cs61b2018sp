@@ -20,4 +20,18 @@ public class Palindrome {
         }
         return chars;
     }
+
+    /**
+     * The isPalindrome method should return true if the given word is a palindrome, and false otherwise.
+     * A palindrome is defined as a word that is the same whether it is read forwards or backwards.
+     * For example:
+     *    1.“a”, “racecar”, and “noon” are all palindromes.
+     *    2.“horse”, “rancor”, and “aaaaab” are not palindromes.
+     * Any word of length 1 or 0 is a palindrome.
+     * ‘A’ and ‘a’ should not be considered equal.
+     * */
+    public boolean isPalindrome(String word) {
+        return false;
+    }
+
 }
