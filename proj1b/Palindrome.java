@@ -14,7 +14,8 @@ public class Palindrome {
     public Deque<Character> wordToDeque(String word) {
         int n = word.length();
         // use our own Deque implementation
-        Deque<Character> chars = new LinkedListDeque<>();
+        // I think it will be much easier to use ArrayDeque to implement isPalindrome
+        Deque<Character> chars = new ArrayDeque<>();
         for (int i = 0; i < n; i++) {
             chars.addLast(word.charAt(i));
         }
@@ -31,7 +32,26 @@ public class Palindrome {
      * ‘A’ and ‘a’ should not be considered equal.
      * */
     public boolean isPalindrome(String word) {
-        return false;
+        /* n is the number of necessary comparisons to decide
+        * whether the word is a palindrome or not.
+        * To better explain why n is like that, for example:
+        * word = noon, length = 4, comparisons = 2
+        * word = after, length = 5, comparisons = 2
+        * to sum up, it doesn't matter the word's length is even or odd,
+        * we can just use the integer division, it's simple and clear */
+        int n = word.length();
+        int numOfCmp = n / 2;
+        Deque<Character> chars = wordToDeque(word);
+        /* in the for loop below, we read the input word forwards and backwards at the same time
+        * to check if it matches the definition of a palindrome */
+        for (int i = 0; i < numOfCmp; i++) {
+            // j is the corresponding index moving from the end to the head
+            int j = n - 1 - i;
+            if (!chars.get(i).equals(chars.get(j))) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
