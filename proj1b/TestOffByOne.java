@@ -15,5 +15,12 @@ public class TestOffByOne {
         assertFalse(offByOne.equalChars('a', 'a'));
         assertFalse(offByOne.equalChars('a', 'c'));
         assertFalse(offByOne.equalChars('c', 'a'));
+        assertFalse(offByOne.equalChars('A', 'a'));
+        // according to https://en.wikipedia.org/wiki/ASCII
+        // '&' ==> 38
+        // '%' ==> 37
+        // '?' ==> 63
+        assertTrue(offByOne.equalChars('&', '%'));
+        assertFalse(offByOne.equalChars('%', '?'));
     }
 }

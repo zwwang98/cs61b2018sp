@@ -23,7 +23,9 @@ public class Palindrome {
     }
 
     /**
-     * The isPalindrome method should return true if the given word is a palindrome, and false otherwise.
+     * The isPalindrome method should return true if the given word is a palindrome,
+     * and false otherwise.
+     *
      * A palindrome is defined as a word that is the same whether it is read forwards or backwards.
      * For example:
      *    1.“a”, “racecar”, and “noon” are all palindromes.
@@ -68,8 +70,10 @@ public class Palindrome {
         }
         int numOfCmp = n / 2;
         Deque<Character> chars = wordToDeque(word);
-        /* in the for loop below, we read the input word forwards and backwards at the same time
-         * and use the passing parameter cc to check if the corresponding char pairs could be though equal
+        /* in the for loop below, we read the input word
+         * forwards and backwards at the same time,
+         * and use the passing parameter cc to check
+         * if the corresponding char pairs could be thought equal
          * so as to check if the word is a "cc"-palindrome */
         for (int i = 0; i < numOfCmp; i++) {
             // j is the corresponding index moving from the end to the head
