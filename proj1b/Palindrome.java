@@ -62,7 +62,23 @@ public class Palindrome {
      * according to the character comparison test provided
      * by the CharacterComparator passed in as argument cc. */
     public boolean isPalindrome(String word, CharacterComparator cc) {
-        return false;
+        int n = word.length();
+        if (n == 0 || n == 1) {
+            return true;
+        }
+        int numOfCmp = n / 2;
+        Deque<Character> chars = wordToDeque(word);
+        /* in the for loop below, we read the input word forwards and backwards at the same time
+         * and use the passing parameter cc to check if the corresponding char pairs could be though equal
+         * so as to check if the word is a "cc"-palindrome */
+        for (int i = 0; i < numOfCmp; i++) {
+            // j is the corresponding index moving from the end to the head
+            int j = n - 1 - i;
+            if (!cc.equalChars(chars.get(i), chars.get(j))) {
+                return false;
+            }
+        }
+        return true;
     }
 
 }
