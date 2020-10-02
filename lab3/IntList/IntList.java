@@ -132,7 +132,15 @@ public class IntList {
      * as an input, returns null.
      */
     public static IntList reverse(IntList A) {
-        return null;
+        // 1. null argument
+        // 2. base case
+        if (A == null || A.rest == null) {
+            return A;
+        }
+        IntList reversed = reverse(A.rest);
+        A.rest.rest = A;
+        A.rest = null;
+        return reversed;
     }
 
 
