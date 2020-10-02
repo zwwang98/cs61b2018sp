@@ -10,12 +10,10 @@ public class TestOffByOne {
     // Your tests go here.
     @Test
     public void testOffByOne() {
-        OffByOne obo = new OffByOne();
-        assertTrue(obo.equalChars('a', 'b'));
-        assertTrue(obo.equalChars('b', 'a'));
-        assertFalse(obo.equalChars('a', 'a'));
-        assertFalse(obo.equalChars('a', 'c'));
-        assertFalse(obo.equalChars('c', 'a'));
-
+        assertTrue(offByOne.equalChars('a', 'b'));
+        assertTrue(offByOne.equalChars('b', 'a'));
+        assertFalse(offByOne.equalChars('a', 'a'));
+        assertFalse(offByOne.equalChars('a', 'c'));
+        assertFalse(offByOne.equalChars('c', 'a'));
     }
 }
