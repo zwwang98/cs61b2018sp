@@ -126,8 +126,14 @@ public class IntList {
         return result;
     }
 
-
-
+    /**
+     * Returns the reverse of the given IntList.
+     * This method is destructive. If given null
+     * as an input, returns null.
+     */
+    public static IntList reverse(IntList A) {
+        return null;
+    }
 
 
 
