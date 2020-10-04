@@ -34,6 +34,9 @@ public class TestArrayDequeGold {
     @Test
     public void test1() {
         // track the failure method calling sequence
+        // I made a mistake. I chose the wrong container to store the failure method calling sequence.
+        // I chose ArrayList<String> and I was stuck because I don't know how to print them like
+        // the way the instruction's example does.
         String failure = "";
 
         // create and instantiate a StudentArrayDeque and a ArrayDequeSolution
@@ -49,31 +52,37 @@ public class TestArrayDequeGold {
             if (numberBetweenZeroAndOne < 0.25) {
                 stu.addFirst(i);
                 sol.addFirst(i);
+                // track the current method being called
                 failure += "addFirst(" + i + ")" + "\n";
             } else if (numberBetweenZeroAndOne < 0.5) {
                 stu.addLast(i);
                 sol.addLast(i);
+                // track the current method being called
                 failure += "addLast(" + i + ")\n";
             } else if (numberBetweenZeroAndOne < 0.75) {
                 if (!stu.isEmpty() && !sol.isEmpty()) {
                     Integer expected = sol.removeFirst();
                     Integer actual = stu.removeFirst();
+                    // track the current method being called
                     failure += "removeFirst()\n";
                     assertEquals(failure.toString(), expected, actual);
                 } else {
                     stu.addFirst(i);
                     sol.addFirst(i);
+                    // track the current method being called
                     failure += "addFirst(" + i + ")" + "\n";
                 }
             } else {
                 if (!stu.isEmpty() && !sol.isEmpty()) {
                     Integer expected = sol.removeLast();
                     Integer actual = stu.removeLast();
+                    // track the current method being called
                     failure += "removeLast()" + "\n";
                     assertEquals(failure.toString(), expected, actual);
                 } else {
                     stu.addLast(i);
                     sol.addLast(i);
+                    // track the current method being called
                     failure += "addLast(" + i + ")" + "\n";
                 }
             }
