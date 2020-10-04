@@ -2,6 +2,7 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 
 import java.io.FileReader;
+import java.util.ArrayList;
 
 public class TestArrayDequeGold {
 
@@ -32,9 +33,13 @@ public class TestArrayDequeGold {
      * */
     @Test
     public void test1() {
+        // track the failure method calling sequence
+        ArrayList<String> failure = new ArrayList<>();
+
         // create and instantiate a StudentArrayDeque and a ArrayDequeSolution
         StudentArrayDeque<Integer> stu = new StudentArrayDeque<>();
         ArrayDequeSolution<Integer> sol = new ArrayDequeSolution<>();
+
         // call methods randomized from stu and sol and check if their outputs match each other
         for (int i = 0; i < 1000; i += 1) {
             // in each loop, generate a random number in [0, 1)
@@ -44,22 +49,37 @@ public class TestArrayDequeGold {
             if (numberBetweenZeroAndOne < 0.25) {
                 stu.addFirst(i);
                 sol.addFirst(i);
+                failure.add("addFirst(" + i + ")");
             } else if (numberBetweenZeroAndOne < 0.5) {
                 stu.addLast(i);
                 sol.addLast(i);
+                failure.add("addFirst(" + i + ")");
             } else if (numberBetweenZeroAndOne < 0.75) {
                 if (!stu.isEmpty() && !sol.isEmpty()) {
-                    assertEquals(stu.removeFirst(), sol.removeFirst());
+                    Integer expected = sol.removeFirst();
+                    Integer actual = stu.removeFirst();
+                    failure.add("addFirst(" + i + ")");
+                    
+                    assertEquals(failure.toString() + "\n   Random number " + actual
+                                    + " not equal to " + expected + "!",
+                            expected, actual);
                 } else {
                     stu.addFirst(i);
                     sol.addFirst(i);
+                    failure.add("addFirst(" + i + ")");
                 }
             } else {
                 if (!stu.isEmpty() && !sol.isEmpty()) {
-                    assertEquals(stu.removeLast(), sol.removeLast());
+                    Integer expected = sol.removeLast();
+                    Integer actual = stu.removeLast();
+                    failure.add("addFirst(" + i + ")");
+                    assertEquals(failure.toString() + "\n   Random number " + actual
+                                    + " not equal to " + expected + "!",
+                            expected, actual);
                 } else {
                     stu.addLast(i);
                     sol.addLast(i);
+                    failure.add("addFirst(" + i + ")");
                 }
             }
         }
