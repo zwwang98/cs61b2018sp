@@ -34,7 +34,7 @@ public class TestArrayDequeGold {
     @Test
     public void test1() {
         // track the failure method calling sequence
-        ArrayList<String> failure = new ArrayList<>();
+        String failure = "";
 
         // create and instantiate a StudentArrayDeque and a ArrayDequeSolution
         StudentArrayDeque<Integer> stu = new StudentArrayDeque<>();
@@ -49,37 +49,32 @@ public class TestArrayDequeGold {
             if (numberBetweenZeroAndOne < 0.25) {
                 stu.addFirst(i);
                 sol.addFirst(i);
-                failure.add("addFirst(" + i + ")");
+                failure += "addFirst(" + i + ")" + "\n";
             } else if (numberBetweenZeroAndOne < 0.5) {
                 stu.addLast(i);
                 sol.addLast(i);
-                failure.add("addFirst(" + i + ")");
+                failure += "addLast(" + i + ")\n";
             } else if (numberBetweenZeroAndOne < 0.75) {
                 if (!stu.isEmpty() && !sol.isEmpty()) {
                     Integer expected = sol.removeFirst();
                     Integer actual = stu.removeFirst();
-                    failure.add("addFirst(" + i + ")");
-                    
-                    assertEquals(failure.toString() + "\n   Random number " + actual
-                                    + " not equal to " + expected + "!",
-                            expected, actual);
+                    failure += "removeFirst()\n";
+                    assertEquals(failure.toString(), expected, actual);
                 } else {
                     stu.addFirst(i);
                     sol.addFirst(i);
-                    failure.add("addFirst(" + i + ")");
+                    failure += "addFirst(" + i + ")" + "\n";
                 }
             } else {
                 if (!stu.isEmpty() && !sol.isEmpty()) {
                     Integer expected = sol.removeLast();
                     Integer actual = stu.removeLast();
-                    failure.add("addFirst(" + i + ")");
-                    assertEquals(failure.toString() + "\n   Random number " + actual
-                                    + " not equal to " + expected + "!",
-                            expected, actual);
+                    failure += "removeLast()" + "\n";
+                    assertEquals(failure.toString(), expected, actual);
                 } else {
                     stu.addLast(i);
                     sol.addLast(i);
-                    failure.add("addFirst(" + i + ")");
+                    failure += "addLast(" + i + ")" + "\n";
                 }
             }
         }
