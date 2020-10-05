@@ -85,31 +85,47 @@ public class HexWorld {
                 // curStartP is the current start point of the row to be drawn in this loop
                 Position curStartP = new Position(p.x + i, p.y + i);
                 // l is the length of current row to be drawn
-                int l = 2 * (s - i);
+                // (s + 2 * (s - 1)) is the length of the longest row
+                // we could figure out this rule from the instructions' example hexagons
+                //      aa        aaa         aaaa             aaaaa
+                //    aaaa      aaaaa       aaaaaa           aaaaaaa
+                //    aaaa     aaaaaaa     aaaaaaaa         aaaaaaaaa
+                //     aa      aaaaaaa    aaaaaaaaaa       aaaaaaaaaaa
+                //              aaaaa     aaaaaaaaaa      aaaaaaaaaaaaa
+                //               aaa       aaaaaaaa       aaaaaaaaaaaaa
+                //                          aaaaaa         aaaaaaaaaaa
+                //                           aaaa           aaaaaaaaa
+                //                                           aaaaaaa
+                //                                            aaaaa
+                int l = (s + 2 * (s - 1)) - 2 * i;
                 // draw one row in the for loop below
-                for (int j = 0; j < l; j++) {
-                    world[curStartP.x][curStartP.y] = t;
-                    curStartP.x++;
-                }
+                addRow(world, curStartP, l, t);
             }
         } else {
             // draw down
             for (int i = 0; i < s; i++) {
                 // curStartP is the current start point of the row to be drawn in this loop
                 Position curStartP = new Position(p.x + i, p.y - i);
-                // l is the length of current row to be drawn
-                int l = 2 * (s - i);
+                int l = (s + 2 * (s - 1)) - 2 * i;
                 // draw one row in the for loop below
-                for (int j = 0; j < l; j++) {
-                    world[curStartP.x][curStartP.y] = t;
-                    curStartP.x++;
-                }
+                addRow(world, curStartP, l, t);
             }
         }
     }
 
+    /** Add a row in TETile[][] world.
+     * 1.the row starts at Position start
+     * 2.the row's length is passing in as length
+     * 3.fill the row with TETile t*/
+    private void addRow(TETile[][] world, Position start, int length, TETile t) {
+        for (int j = 0; j < length; j++) {
+            world[start.x][start.y] = t;
+            start.x++;
+        }
+    }
+
     /** @source BoringWorldDemo.java */
-    private static final int WIDTH = 6;
+    private static final int WIDTH = 7;
     private static final int HEIGHT = 6;
 
     public static void main(String[] args) {
