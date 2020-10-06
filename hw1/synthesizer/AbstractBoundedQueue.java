@@ -6,14 +6,16 @@ package synthesizer;
  * as well as so called “getter” methods capacity() and fillCount() that
  * return capacity and fillCount, respectively.
  * */
-public class AbstractBoundedQueue {
+public abstract class AbstractBoundedQueue<T> implements BoundedQueue<T> {
     protected int fillCount;
     protected int capacity;
 
+    @Override
     public int capacity() {
         return capacity;
     }
 
+    @Override
     public int fillCount() {
         return fillCount;
     }
