@@ -76,7 +76,7 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
     private class BQIterator<T> implements Iterator<T> {
         private int ptr;
 
-        public BQIterator() {
+        BQIterator() {
             ptr = 0;
         }
 
