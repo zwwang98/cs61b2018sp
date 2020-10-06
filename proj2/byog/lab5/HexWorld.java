@@ -124,9 +124,79 @@ public class HexWorld {
         }
     }
 
+    private void addHexagonTesselation(TETile[][] world, Position p, int s, TETile t) {
+        // center:
+        // add the central hexagon
+        addHexagon(world, p, s, t);
+        // second layer around center:
+        // add the central hexagon's six neighbors
+        addNeighobrHexagon(world, p, s, t);
+        // third layer:
+        // add the central hexagon's six neighbors' neighbors
+        Position[] firstNeighbors = calNieghborStartPoints(p, s);
+        for (Position n1 : firstNeighbors) {
+            Position[] secondNeighbors = calNieghborStartPoints(n1, s);
+            for (Position n2 : secondNeighbors) {
+                if (isValidStartPoint(n2, s)) {
+                    addHexagon(world, n2, s, t);
+                }
+            }
+        }
+    }
+
+
+    /** Arrange 19 total hexagons in a pattern shown in the instructions,
+     * which is a larger hexagons consists of three layers of single hexagon. */
+    private void addNeighobrHexagon(TETile[][] world, Position p, int s, TETile t) {
+        /* Add those hexagons following steps below:
+        * 1.calculate all valid start points from the passing parameter p
+        * 2.add those hexagons into the TETile[][] world
+        * */
+        // index from 0 - 5:
+        // up, down, leftUp, leftDown, rightUp, rightDown
+        Position[] neighbors = calNieghborStartPoints(p, s);
+        for (int i = 0; i < neighbors.length; i++) {
+            Position n = neighbors[i];
+            if (isValidStartPoint(n, s)) {
+                addHexagon(world, n, s, t);
+            }
+        }
+    }
+
+    /** Calculate all the neighbor hexagons' start points. */
+    private Position[] calNieghborStartPoints(Position p, int s) {
+        // a hexagon has six adjacent neighbor hexagons
+        Position[] points = new Position[6];
+        Position up = new Position(p.x, p.y + 2 * s);
+        Position down = new Position(p.x, p.y - 2 * s);
+        // left up point's start point is in the same line where
+        // the current hexagon's upper middle row locates
+        Position leftUp = new Position(p.x - (2 * s - 1), p.y + s);
+        Position leftDown = new Position(p.x - (2 * s - 1), p.y - s);
+        Position rightUp = new Position(p.x + (2 * s - 1), p.y + s);
+        Position rightDown = new Position(p.x + (2 * s - 1), p.y - s);
+        points[0] = up;
+        points[1] = down;
+        points[2] = leftUp;
+        points[3] = leftDown;
+        points[4] = rightUp;
+        points[5] = rightDown;
+        return points;
+    }
+
+    /** Check if a Position p is a valid start point for a hexagon.
+     * A start point of a hexagon is the left bottom point.
+     * Position p's x and y is 0-based-indexed. */
+    private boolean isValidStartPoint(Position p, int s) {
+        return ((s - 1) <= p.x && p.x < (WIDTH - 2 * s - 1) &&
+                0 <= p.y && p.y < (HEIGHT - 2 * s));
+    }
+    //@???
+
+
     /** @source BoringWorldDemo.java */
-    private static final int WIDTH = 7;
-    private static final int HEIGHT = 6;
+    private static final int WIDTH = 30;
+    private static final int HEIGHT = 31;
 
     public static void main(String[] args) {
         // initialize the tile rendering engine with a window of size WIDTH x HEIGHT
@@ -141,9 +211,11 @@ public class HexWorld {
             }
         }
 
-        Position p = new Position(2, 0);
-        HexWorld.addHexagon(world, p, 3, Tileset.WATER);
+        Position p = new Position(12, 12);
         // fills in a block 14 tiles wide by 4 tiles tall
+        HexWorld h = new HexWorld();
+        h.addHexagonTesselation(world, p, 3, Tileset.WATER);
+        HexWorld.addHexagon(world, p, 3, Tileset.FLOWER);
 
         // draws the world to the screen
         ter.renderFrame(world);
