@@ -87,7 +87,9 @@ public class ArrayRingBuffer<T> extends AbstractBoundedQueue<T> {
 
         @Override
         public T next() {
-            return (T) rb[ptr];
+            T result = (T) rb[ptr];
+            ptr++;
+            return (T) result;
         }
     }
 
