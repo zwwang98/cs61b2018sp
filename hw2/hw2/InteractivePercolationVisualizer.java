@@ -9,16 +9,15 @@
  *  open sites (that aren't full) in white, and blocked sites in black.
  *
  ******************************************************************************/
-package hw2;
 import edu.princeton.cs.algs4.StdDraw;
 import edu.princeton.cs.algs4.StdOut;
 
 public class InteractivePercolationVisualizer {
-    /*private static final int DELAY = 20;
+    private static final int DELAY = 20;
 
     public static void main(String[] args) {
         // N-by-N percolation system (read from command-line, default = 10)
-        int N = 10;
+        int N = 5; // 改成5试试
         if (args.length == 1) {
             N = Integer.parseInt(args[0]);
         }
@@ -58,5 +57,5 @@ public class InteractivePercolationVisualizer {
             }
             StdDraw.show(DELAY);
         }
-    }*/
+    }
 }
