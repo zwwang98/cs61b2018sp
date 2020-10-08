@@ -1,5 +1,3 @@
-package hw2;
-
 import edu.princeton.cs.introcs.StdRandom; // 可以生成随机数，用于生成随机坐标(row, col)
 import edu.princeton.cs.introcs.StdStats;
 
@@ -122,4 +120,3 @@ public class PercolationStats {
         return confidenceHigh;
     }
 }
-
