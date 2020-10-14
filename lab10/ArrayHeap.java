@@ -110,8 +110,14 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
         validateSinkSwimArg(index);
 
-        /** TODO: Your code here. */
-        return;
+        // only when index is larger than 1 could we do swim(int index)
+        if (index > 1) {
+            int p = parentIndex(index);
+            if (min(index, p) == index) {
+                swap(index, p);
+            }
+            swim(p);
+        }
     }
 
     /**
@@ -121,8 +127,24 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
         // Throws an exception if index is invalid. DON'T CHANGE THIS LINE.
         validateSinkSwimArg(index);
 
-        /** TODO: Your code here. */
-        return;
+        // left child's index
+        int l = leftIndex(index);
+        // right child's index
+        int r = rightIndex(index);
+        // if l or r is beyond the size of the length of contents
+        // there will be IndexOutOfBound Exception
+        if (l > contents.length || r > contents.length) {
+            return;
+        }
+        // the min(int index1, int index2) has a precondition,
+        // which is not both nodes are null
+        if (!(contents[l] == null && contents[r] == null)) {
+            int min = min(l, r);
+            if (min(min, index) == min) {
+                swap(min, index);
+                sink(min);
+            }
+        }
     }
 
     /**
@@ -136,7 +158,10 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
             resize(contents.length * 2);
         }
 
-        /* TODO: Your code here! */
+        // add the inserted item to the end of the ArrayList
+        contents[size + 1] = new Node(item, priority);
+        // then swim it
+        swim(++size);
     }
 
     /**
@@ -145,8 +170,8 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public T peek() {
-        /* TODO: Your code here! */
-        return null;
+        return contents[1].myItem;
+        //@??? Do I need to consider the situation when the contents is empty?
     }
 
     /**
@@ -160,8 +185,17 @@ public class ArrayHeap<T> implements ExtrinsicPQ<T> {
      */
     @Override
     public T removeMin() {
-        /* TODO: Your code here! */
-        return null;
+        // swap the last item from the heap into the root position
+        // remember here our min heap's index is 1-based not 0-based
+        swap(1, size);
+        // store the min item (currently it is at the end)
+        T result = contents[size].myItem; // 1-based index
+        // avoid loitering by nulling out the dead item
+        // this step should be done before sink
+        contents[size--] = null;
+        // then sink the root
+        sink(1);
+        return result;
     }
 
     /**
