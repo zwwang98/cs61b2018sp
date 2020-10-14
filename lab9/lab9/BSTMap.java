@@ -134,11 +134,36 @@ public class BSTMap<K extends Comparable<K>, V> implements Map61B<K, V> {
      **/
     @Override
     public V remove(K key, V value) {
-        throw new UnsupportedOperationException();
+        V r = get(key);
+        // if the key is currently not mapped to the specified value, return null
+        if (value != r) {
+            return null;
+        } else {
+            remove(key);
+            return r;
+        }
     }
 
     @Override
     public Iterator<K> iterator() {
         throw new UnsupportedOperationException();
+    }
+
+    private class BSTMapIterator<K> implements Iterator<K> {
+        private Node p;
+
+        public BSTMapIterator() {
+
+        }
+
+        @Override
+        public boolean hasNext() {
+            return false;
+        }
+
+        @Override
+        public K next() {
+            return null;
+        }
     }
 }
