@@ -5,7 +5,14 @@ import edu.princeton.cs.algs4.StdDraw;
 import java.awt.Color;
 import edu.princeton.cs.algs4.StdRandom;
 
+/** This time, you won’t change the ComplexOomage class at all.
+ *  Instead, your job will be to write tests to find the flaw in the hashCode function.
+ * */
 public class ComplexOomage implements Oomage {
+    /* Instead of three instance variables representing red, green, and blue values,
+    *  each ComplexOomage has an entire a list of ints between 0 and 255
+    *  (not necessarily multiples of 5). This list may be of any length.
+    * */
     protected List<Integer> params;
     private static final double WIDTH = 0.05;
 
