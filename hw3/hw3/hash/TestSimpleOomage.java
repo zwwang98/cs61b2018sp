@@ -1,5 +1,6 @@
 package hw3.hash;
 
+import edu.princeton.cs.algs4.StdRandom;
 import org.junit.Test;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
@@ -25,10 +26,23 @@ public class TestSimpleOomage {
 
     @Test
     public void testHashCodePerfect() {
-        /* TODO: Write a test that ensures the hashCode is perfect,
+        /* Write a test that ensures the hashCode is perfect,
           meaning no two SimpleOomages should EVER have the same
           hashCode UNLESS they have the same red, blue, and green values!
          */
+        SimpleOomage ooA = new SimpleOomage(5, 10, 20);
+        SimpleOomage ooA2 = new SimpleOomage(5, 20, 10);
+        SimpleOomage ooA3 = new SimpleOomage(10, 5, 20);
+        SimpleOomage ooA4 = new SimpleOomage(10, 20, 5);
+        SimpleOomage ooA5 = new SimpleOomage(20, 10, 5);
+        SimpleOomage ooA6 = new SimpleOomage(20, 5, 10);
+        SimpleOomage[] o = {ooA, ooA2, ooA3, ooA4, ooA5, ooA6};
+        for (int i = 0; i < 6; i++) {
+            for (int j = i + 1; j < 6; j++) {
+                assertNotEquals(o[i], o[j]);
+            }
+        }
+
     }
 
     @Test
@@ -42,7 +56,7 @@ public class TestSimpleOomage {
         assertNotEquals(ooA, "ketchup");
     }
 
-    /*
+
     @Test
     public void testHashCodeAndEqualsConsistency() {
         SimpleOomage ooA = new SimpleOomage(5, 10, 20);
@@ -50,7 +64,7 @@ public class TestSimpleOomage {
         HashSet<SimpleOomage> hashSet = new HashSet<>();
         hashSet.add(ooA);
         assertTrue(hashSet.contains(ooA2));
-    }*/
+    }
 
     /* TODO: Uncomment this test after you finish haveNiceHashCode Spread in OomageTestUtility */
     /*@Test

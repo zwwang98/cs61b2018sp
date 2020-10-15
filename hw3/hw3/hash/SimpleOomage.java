@@ -12,7 +12,7 @@ public class SimpleOomage implements Oomage {
     protected int blue;
 
     private static final double WIDTH = 0.01;
-    private static final boolean USE_PERFECT_HASH = false;
+    private static final boolean USE_PERFECT_HASH = true;
 
     @Override
     public boolean equals(Object o) {
@@ -26,16 +26,15 @@ public class SimpleOomage implements Oomage {
 
     /* Uncomment this method after you've written
        equals and failed the testHashCodeAndEqualsConsistency
-       test.
+       test. */
     @Override
     public int hashCode() {
         if (!USE_PERFECT_HASH) {
             return red + green + blue;
         } else {
-            // TODO: Write a perfect hash function for Simple Oomages.
-            return 0;
+            return red * 31 * 31 + green * 31 + blue * 31;
         }
-    }*/
+    }
 
     public SimpleOomage(int r, int g, int b) {
         // r, g and b should be in the range of 0-255 (not inclusive)1
