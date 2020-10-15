@@ -17,9 +17,15 @@ public class SimpleOomage implements Oomage {
     @Override
     public boolean equals(Object o) {
         // @source https://algs4.cs.princeton.edu/12oop/Date.java.html
-        if (o == this) return true;
-        if (o == null) return false;
-        if (o.getClass() != this.getClass()) return false;
+        if (o == this) {
+            return true;
+        }
+        if (o == null) {
+            return false;
+        }
+        if (o.getClass() != this.getClass()) {
+            return false;
+        }
         SimpleOomage that = (SimpleOomage) o;
         return (this.red == that.red) && (this.green == that.green) && (this.blue == that.blue);
     }
