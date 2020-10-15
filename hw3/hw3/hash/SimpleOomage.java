@@ -5,6 +5,8 @@ import edu.princeton.cs.algs4.StdDraw;
 
 
 public class SimpleOomage implements Oomage {
+    /* red, green, and blue, and each may have any value
+    *  that is a multiple of 5 between 0 and 255 */
     protected int red;
     protected int green;
     protected int blue;
@@ -14,8 +16,12 @@ public class SimpleOomage implements Oomage {
 
     @Override
     public boolean equals(Object o) {
-        // TODO: Write this method.
-        return false;
+        // @source https://algs4.cs.princeton.edu/12oop/Date.java.html
+        if (o == this) return true;
+        if (o == null) return false;
+        if (o.getClass() != this.getClass()) return false;
+        SimpleOomage that = (SimpleOomage) o;
+        return (this.red == that.red) && (this.green == that.green) && (this.blue == that.blue);
     }
 
     /* Uncomment this method after you've written
@@ -32,9 +38,11 @@ public class SimpleOomage implements Oomage {
     }*/
 
     public SimpleOomage(int r, int g, int b) {
+        // r, g and b should be in the range of 0-255 (not inclusive)1
         if (r < 0 || r > 255 || g < 0 || g > 255 || b < 0 || b > 255) {
             throw new IllegalArgumentException();
         }
+        // r, g and b should be a multiple of 5
         if ((r % 5 != 0) || (g % 5 != 0) || (b % 5 != 0)) {
             throw new IllegalArgumentException("red/green/blue values must all be multiples of 5!");
         }
