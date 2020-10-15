@@ -32,7 +32,11 @@ public class SimpleOomage implements Oomage {
         if (!USE_PERFECT_HASH) {
             return red + green + blue;
         } else {
-            return red * 31 * 31 + green * 31 + blue * 31;
+            /* Since the values of red, green and blue are multiples of 5,
+            *  so when we have a hashtable who also has a multiple of 5 buckets, say 10,
+            *  then our Oomage object will only go to two buckets, 0 and 5.
+            *  So here, we divide each instance variable by 5. */
+            return red / 5 * 31 * 31 + green / 5 * 31 + blue / 5 * 31;
         }
     }
 
