@@ -18,7 +18,7 @@ public class InteractivePercolationVisualizer {
 
     public static void main(String[] args) {
         // N-by-N percolation system (read from command-line, default = 10)
-        int N = 4; // 改成4试试
+        int N = 20; // 改成4试试
         if (args.length == 1) {
             N = Integer.parseInt(args[0]);
         }
