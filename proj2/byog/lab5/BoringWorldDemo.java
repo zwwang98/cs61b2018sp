@@ -31,6 +31,8 @@ public class BoringWorldDemo {
             }
         }
 
+        world[27][7] = Tileset.PLAYER;
+
         // draws the world to the screen
         ter.renderFrame(world);
     }

@@ -1,5 +1,5 @@
 package byog.lab5;
-import javafx.geometry.Pos;
+//import javafx.geometry.Pos; ???skeleton里没有这个import啊
 import org.junit.Test;
 import static org.junit.Assert.*;
 
@@ -17,6 +17,10 @@ public class HexWorld {
 
     private static final boolean UP = true;
     private static final boolean DOWN = false;
+
+    private static final long SEED = 698445;
+    private static final Random RANDOM = new Random(SEED);
+
 
     public static class Position {
         int x;
@@ -52,7 +56,23 @@ public class HexWorld {
         h.addHalfHexagon(world, hi, s, t, UP);
         // draw the lower half of the hexagon
         h.addHalfHexagon(world, lo, s, t, DOWN);
+    }
 
+    /** Picks a RANDOM tile with a 33% change of being
+     *  a wall, 33% chance of being a flower, and 33%
+     *  chance of being empty space.
+     */
+    private static TETile randomTile() {
+        int tileNum = RANDOM.nextInt(6);
+        switch (tileNum) {
+            case 0: return Tileset.WALL;
+            case 1: return Tileset.FLOWER;
+            case 2: return Tileset.WATER;
+            case 3: return Tileset.GRASS;
+            case 4: return Tileset.MOUNTAIN;
+            case 5: return Tileset.SAND;
+            default: return Tileset.NOTHING;
+        }
     }
 
     /**
@@ -124,13 +144,13 @@ public class HexWorld {
         }
     }
 
-    private void addHexagonTesselation(TETile[][] world, Position p, int s, TETile t) {
+    private void addHexagonTesselation(TETile[][] world, Position p, int s) {
         // center:
         // add the central hexagon
-        addHexagon(world, p, s, t);
+        addHexagon(world, p, s, HexWorld.randomTile());
         // second layer around center:
         // add the central hexagon's six neighbors
-        addNeighobrHexagon(world, p, s, t);
+        addNeighobrHexagon(world, p, s, HexWorld.randomTile());
         // third layer:
         // add the central hexagon's six neighbors' neighbors
         Position[] firstNeighbors = calNieghborStartPoints(p, s);
@@ -138,14 +158,14 @@ public class HexWorld {
             Position[] secondNeighbors = calNieghborStartPoints(n1, s);
             for (Position n2 : secondNeighbors) {
                 if (isValidStartPoint(n2, s)) {
-                    addHexagon(world, n2, s, t);
+                    addHexagon(world, n2, s, HexWorld.randomTile());
                 }
             }
         }
     }
 
 
-    /** Arrange 19 total hexagons in a pattern shown in the instructions,
+    /** Arrange 191 total hexagons in a pattern shown in the instructions,
      * which is a larger hexagons consists of three layers of single hexagon. */
     private void addNeighobrHexagon(TETile[][] world, Position p, int s, TETile t) {
         /* Add those hexagons following steps below:
@@ -214,8 +234,9 @@ public class HexWorld {
         Position p = new Position(12, 12);
         // fills in a block 14 tiles wide by 4 tiles tall
         HexWorld h = new HexWorld();
-        h.addHexagonTesselation(world, p, 3, Tileset.WATER);
-        HexWorld.addHexagon(world, p, 3, Tileset.FLOWER);
+        h.addHexagonTesselation(world, p, 3);
+        //HexWorld.addHexagon(world, p, 3, HexWorld.randomTile());
+        //h.addNeighobrHexagon(world, p, 3, HexWorld.randomTile());
 
         // draws the world to the screen
         ter.renderFrame(world);
