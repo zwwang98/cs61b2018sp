@@ -7,6 +7,7 @@ import byog.lab5.HexWorld;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 /**
@@ -49,9 +50,16 @@ public class MapGenerator {
     }
 
     /**
-     * Draw one room with given start point, its width and its height following steps below:
-     * 1. draw the wall tiles
-     * 2. draw the blank tiles
+     * Draw one room with given Room object.
+     * This is just a simplified version of the drawOneRoom below.
+     * */
+    public void drawOneRoom(TETile[][] world, Room r) {
+        drawOneRoom(world, r.s, r.w, r.h);
+    }
+
+    /**
+     * Draw one room with given start point, its width and its height.
+     * Now we simply draw the FLOOR tiles, WALL tiles are not included.
      * */
     public void drawOneRoom(TETile[][] world, Position s, int w, int h) {
         // check if the room is valid
@@ -65,15 +73,10 @@ public class MapGenerator {
         Position leftTop = new Position(s.x, s.y + h - 1);
         Position rightBottom = new Position(s.x + w - 1, s.y);
         Position rightTop = new Position(s.x + w - 1, s.y + h - 1);
-        // draw the wall
-        drawOneLine(world, s, leftTop, Tileset.WALL);
-        drawOneLine(world, s, rightBottom, Tileset.WALL);
-        drawOneLine(world, leftTop, rightTop, Tileset.WALL);
-        drawOneLine(world, rightBottom, rightTop, Tileset.WALL);
         // draw the floor
-        for (int i = 0; i < w - 2; i++) {
-            for (int j = 0; j < h - 2; j++) {
-                world[s.x + 1 + i][s.y + 1 + j] = Tileset.FLOOR;
+        for (int i = 0; i < w; i++) {
+            for (int j = 0; j < h; j++) {
+                world[s.x + i][s.y + j] = Tileset.FLOOR;
             }
         }
     }
@@ -113,8 +116,8 @@ public class MapGenerator {
      *        0 <= p.y <= world.height - 4
      * */
     public void drawOneRandomRoom(TETile[][] world, Random random) {
-        int x = RandomUtils.uniform(random, world.length - 4);
-        int y = RandomUtils.uniform(random, world[0].length - 4);
+        int x = RandomUtils.uniform(random, 2, world.length - 4);
+        int y = RandomUtils.uniform(random, 2, world[0].length - 4);
         Position s = new Position(x, y);
         int w = RandomUtils.uniform(random, 4, 8);
         int h = RandomUtils.uniform(random, 4, 8);
@@ -134,28 +137,33 @@ public class MapGenerator {
      * @param random Random
      * @param tries the number for trying to draw a random room
      * */
-    public ArrayList<Room> drawRandomRooms(TETile[][] world, Random random, int tries) {
-        ArrayList<Room> rooms = new ArrayList<>();
+    public List<Room> drawRandomRooms(TETile[][] world, Random random, int tries) {
+        List<Room> rooms = new ArrayList();
         for (int i = 0; i < tries; i++) {
             // generate a random start point for a new room
-            int x = RandomUtils.uniform(random, world.length - 4);
-            int y = RandomUtils.uniform(random, world[0].length - 4);
+            // since now we only count FLOOR tiles, so we need to leave 1 tile for WALL
+            int x = RandomUtils.uniform(random, 1, world.length - 4);
+            int y = RandomUtils.uniform(random, 1, world[0].length - 4);
             Position s = new Position(x, y);
             // decide the new room's size with randomness
-            int w = RandomUtils.uniform(random, 4, 10);
-            int h = RandomUtils.uniform(random, 4, 10);
+            int w = RandomUtils.uniform(random, 3, 6);
+            int h = RandomUtils.uniform(random, 3, 6);
             // check if the new room is beyond the boundary
-            /*
-            if (((x + w) > world.length) || ((y + h) > world[0].length)) {
-                break;
+            // also, leave 1 tile empty for WALL
+            if (((x + w) >= world.length) || ((y + h) >= world[0].length)) {
+                continue;
             }
-            */
             // check if the new room is overlapped with existing rooms
-            Room newRoom = new Room(w, h,s );
+            Room newRoom = new Room(w, h, s);
             if (newRoom.isOverlapped(rooms)) {
                 continue;
             }
-            // the new room is valid, then
+            // make the rooms more distributed
+            if (Room.isNearFloorN(world, x, y, 3)) {
+                continue;
+            }
+
+
             // 1. add the new room to the Room[] rooms
             rooms.add(newRoom);
             // 2. draw it
