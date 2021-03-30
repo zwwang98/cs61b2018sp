@@ -32,7 +32,12 @@ public class Game {
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
 
+        // the input string would be something like "NXXXS", we need to remove the N and the S
+        String seed = input.substring(1, input.length() - 1);
+        long s = Long.parseLong(seed);
         TETile[][] finalWorldFrame = null;
+        MapGenerator mg = new MapGenerator(123);
+        finalWorldFrame = mg.drawARandomWorld();
         return finalWorldFrame;
     }
 }

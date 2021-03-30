@@ -25,8 +25,12 @@ public class MapGenerator {
     public static final int HEIGHT = 30;
 
     /* Deal with randomness. */
-    private static final long SEED = 0;
+    private static long SEED;
     private static final Random RANDOM = new Random(SEED);
+
+    public MapGenerator(long seed) {
+        SEED = seed;
+    }
 
     /**
      * 我想直接把Hallway都当作L型的。这样一来：
@@ -172,9 +176,72 @@ public class MapGenerator {
         return rooms;
     }
 
+    /**
+     * Choose a WALL tile to be the DOOR.
+     * The tile above this WALL should be Tileset.FLOOR and
+     * the tile below this WALL should be Tileset.NOTHING.
+     * Besides, I hope the DOOR can be around the middle,
+     * so let's limit the x between like 30-50 or 35-45
+     * */
+    public void addTheDoor(TETile[][] world) {
+        outerLoop:
+        for (int i = 35; i < 45; i++) {
+            for (int j = 1; j < world[0].length; j++) {
+                if (world[i][j] == Tileset.WALL) {
+                    if ((world[i][j + 1] == Tileset.FLOOR) &&
+                            (world[i][j - 1] == Tileset.NOTHING)) {
+                        world[i][j] = Tileset.LOCKED_DOOR;
+                        break outerLoop; // once we find an appropriate place, we don't need to find another one
+                    }
+                }
+            }
+        }
+    }
 
+    public TETile[][] drawARandomWorld() {
+        // initialize tiles
+        TETile[][] world = new TETile[WIDTH][HEIGHT];
+        for (int x = 0; x < WIDTH; x += 1) {
+            for (int y = 0; y < HEIGHT; y += 1) {
+                world[x][y] = Tileset.NOTHING;
+            }
+        }
 
+        MapGenerator mg = new MapGenerator(SEED);
 
+        // test drawOneLine
+        /*
+        Position s = new Position(0, 5);
+        Position e = new Position(3, 5);
+        mg.drawOneLine(world, s, e, Tileset.FLOWER);
+         */
+
+        // test drwaOneRoom
+        // s = new Position(0 ,0);
+        // mg.drawOneRoom(world, s, 8, 8);
+
+        // test drawOneRandomRooms
+        List<Room> rooms = mg.drawRandomRooms(world, RANDOM, 1000);
+        Room r = new Room(1, 1, null);
+        r.connectRooms(rooms, world);
+        r.drawWalls(world);
+        mg.addTheDoor(world);
+        return world;
+    }
+
+    /**
+     * */
+    public void addThePlayer(TETile[][] world) {
+        outerLoop:
+        for (int i = 0; i < world.length; i++) {
+            for (int j = 0; j < world[0].length; j++) {
+                if (world[i][j] == Tileset.FLOOR) {
+                    world[i][j] = Tileset.PLAYER;
+                    break outerLoop;
+                }
+            }
+        }
+    }
 
 
 

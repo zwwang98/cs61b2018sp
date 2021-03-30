@@ -12,7 +12,7 @@ import java.util.Random;
 public class MapVisualTest {
     private static final int WIDTH = 60;
     private static final int HEIGHT = 30;
-    private static final long SEED = 86482;
+    private static final long SEED = 123;
     private static final Random RANDOM = new Random(SEED);
 
     public static void main(String[] args) {
@@ -28,7 +28,7 @@ public class MapVisualTest {
             }
         }
 
-        MapGenerator mg = new MapGenerator();
+        MapGenerator mg = new MapGenerator(123);
 
         // test drawOneLine
         /*
@@ -46,6 +46,8 @@ public class MapVisualTest {
         Room r = new Room(1, 1, null);
         r.connectRooms(rooms, world);
         r.drawWalls(world);
+        mg.addTheDoor(world);
+        mg.addThePlayer(world);
 
 
         // test draw two rooms and connect them
