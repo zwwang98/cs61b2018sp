@@ -2,7 +2,6 @@ package byog.Core;
 
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
-
 import java.util.*;
 
 /**
@@ -75,12 +74,10 @@ public class Room {
     public boolean isOverlapped(Room r) {
         int x = r.s.x;
         int y = r.s.y;
-        int w = r.w;
-        int h = r.h;
         // go through every single point in Room r
         // check if any point is in the Room this
-        for (int i = 0; i < w; i++) {
-            for (int j = 0; j < h; j++) {
+        for (int i = 0; i < r.w; i++) {
+            for (int j = 0; j < r.h; j++) {
                 Position p = new Position(x + i, y + j);
                 if (isInTheRoom(p, this)) {
                     return true;
@@ -94,12 +91,8 @@ public class Room {
      * Check if the point p is in the Room r
      */
     public boolean isInTheRoom(Position p, Room r) {
-        int x = r.s.x;
-        int y = r.s.y;
-        int w = r.w;
-        int h = r.h;
-        return (r.s.x <= p.x && p.x < x + w) &&
-                (y <= p.y && p.y < y + h);
+        return (r.s.x <= p.x && p.x < r.s.x + r.w)
+                && (r.s.y <= p.y && p.y < r.s.y + r.h);
     }
 
 
@@ -243,7 +236,8 @@ public class Room {
         int xMax = r.s.x + r.w - 1;
         // maximum y coordinate (including) of WALL tile in the Room r
         int yMax = r.s.y + r.h - 1;
-        // RandomUtils.uniform(Random random, int a, int b) return a random integer uniformly in [a, b)
+        // RandomUtils.uniform(Random random, int a, int b)
+        // return a random integer uniformly in [a, b)
         // so to include xMax and yMax, the endpoint should be 1 larger than xMax and yMax
         int xRandom = RandomUtils.uniform(RANDOM, xMin, xMax + 1);
         int yRandom = RandomUtils.uniform(RANDOM, yMin, yMax + 1);
@@ -252,10 +246,8 @@ public class Room {
     }
 
     public void drawWalls(TETile[][] world) {
-        int w = world.length;
-        int h = world[0].length;
-        for (int i = 0; i < w; i++) {
-            for (int j = 0; j < h; j++) {
+        for (int i = 0; i < world.length; i++) {
+            for (int j = 0; j < world[0].length; j++) {
                 if (world[i][j] != Tileset.FLOOR && isNearFloor(world, i, j)) {
                     world[i][j] = Tileset.WALL;
                 }
@@ -300,9 +292,9 @@ public class Room {
     /**
      * To check if the coordinate (a, b) is in the TETile[][] world.
      * */
-    public static boolean isValidXY(int a, int b, TETile[][] world){
-        return 0 <= a && a < world.length &&
-                0 <= b && b < world[0].length;
+    public static boolean isValidXY(int a, int b, TETile[][] world) {
+        return 0 <= a && a < world.length
+                && 0 <= b && b < world[0].length;
     }
 }
 

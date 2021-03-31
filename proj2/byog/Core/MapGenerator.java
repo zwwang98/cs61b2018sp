@@ -1,11 +1,7 @@
 package byog.Core;
 
-
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
-import byog.lab5.HexWorld;
-
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -50,8 +46,10 @@ public class MapGenerator {
      *    所以可能加一个if-else简单处理一下这种情况先
      * */
     public static class Hallway {
-        int l; // the length of the Hallway object
-        boolean d; // the direction of the Hallway object, true for horizontal and false for vertical
+        // the length of the Hallway object
+        int l;
+        // the direction of the Hallway object, true for horizontal and false for vertical
+        boolean d;
 
         public Hallway(int l, boolean d) {
 
@@ -98,14 +96,16 @@ public class MapGenerator {
         if (start.x == end.x) { // draw a vertical line
             int x = start.x;
             int y = start.y;
-            int length = end.y - start.y + 1; // we draw a line from bottom to top/from left to right
+            // we draw a line from bottom to top/from left to right
+            int length = end.y - start.y + 1;
             for (int i = 0; i < length; i++) {
                 world[x][y++] = tile;
             }
         } else { // draw a horizontal line
             int x = start.x;
             int y = start.y;
-            int length = end.x - start.x + 1; // we draw a line from bottom to top/from left to right
+            // we draw a line from bottom to top/from left to right
+            int length = end.x - start.x + 1;
             for (int i = 0; i < length; i++) {
                 world[x++][y] = tile;
             }
@@ -117,10 +117,12 @@ public class MapGenerator {
      * 1. a room is determined by three variables: Position p, width w and height h
      *    so to generate a random room, we need to generate these variables randomly
      *    (1) Position p represents the bottom left point of the room
-     *    (2) I assume that the size of the room includes not only the blank Tile but also the wall tile, so
+     *    (2) I assume that the size of the room includes
+     *        not only the blank Tile but also the wall tile, so
      *        a room's width >= 4
      *        a room's height >= 4
-     *    (3) therefore, the Position p should leave enough space for generating a room at least 4×4, so
+     *    (3) therefore, the Position p should leave enough space
+     *        for generating a room at least 4×4, so
      *        0 <= p.x <= world.width - 4
      *        0 <= p.y <= world.height - 4
      * */
@@ -193,10 +195,11 @@ public class MapGenerator {
         for (int i = 35; i < 45; i++) {
             for (int j = 1; j < world[0].length - 1; j++) {
                 if (world[i][j] == Tileset.WALL) {
-                    if ((world[i][j + 1] == Tileset.FLOOR) &&
-                            (world[i][j - 1] == Tileset.NOTHING)) {
+                    if ((world[i][j + 1] == Tileset.FLOOR)
+                            && (world[i][j - 1] == Tileset.NOTHING)) {
                         world[i][j] = Tileset.LOCKED_DOOR;
-                        break outerLoop; // once we find an appropriate place, we don't need to find another one
+                        // once we find an appropriate place, we don't need to find another one
+                        break outerLoop;
                     }
                 }
             }

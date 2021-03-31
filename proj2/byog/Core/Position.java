@@ -11,12 +11,10 @@ public class Position implements Comparable {
         this.y = y;
     }
 
-    public static Comparator<Position> getCompByCoordinate()
-    {
-        Comparator comp = new Comparator<Position>(){
+    public static Comparator<Position> getCompByCoordinate() {
+        Comparator comp = new Comparator<Position>() {
             @Override
-            public int compare(Position s1, Position s2)
-            {
+            public int compare(Position s1, Position s2) {
                 return s1.compareTo(s2);
             }
         };
@@ -26,12 +24,10 @@ public class Position implements Comparable {
     @Override
     public int compareTo(Object o) {
         Position p = (Position) o;
-        int x = p.x;
-        int y = p.y;
-        if (this.x == x) {
-            return y - this.y;
+        if (this.x == p.x) {
+            return p.y - this.y;
         } else {
-            return x - this.x;
+            return p.x - this.x;
         }
     }
 }
