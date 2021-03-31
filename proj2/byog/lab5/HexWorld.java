@@ -1,13 +1,13 @@
 package byog.lab5;
 //import javafx.geometry.Pos; ???skeleton里没有这个import啊
-import org.junit.Test;
-import static org.junit.Assert.*;
+//import org.junit.Test;
+//import static org.junit.Assert.*;
 
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 
-import java.awt.*;
+//import java.awt.*;
 import java.util.Random;
 
 /**
@@ -85,7 +85,7 @@ public class HexWorld {
         // p1 is the lower middle row's start point, its index will be 0
         // p2 is the upper middle row's start point, its index will be 1
         Position p1 = new Position(x - (n - 1), y + (n - 1));
-        Position p2 = new Position(x - (n - 1),y + n);
+        Position p2 = new Position(x - (n - 1), y + n);
         startPoints[0] = p1;
         startPoints[1] = p2;
         return startPoints;
@@ -208,8 +208,8 @@ public class HexWorld {
      * A start point of a hexagon is the left bottom point.
      * Position p's x and y is 0-based-indexed. */
     private boolean isValidStartPoint(Position p, int s) {
-        return ((s - 1) <= p.x && p.x < (WIDTH - 2 * s - 1) &&
-                0 <= p.y && p.y < (HEIGHT - 2 * s));
+        return ((s - 1) <= p.x && p.x < (WIDTH - 2 * s - 1)
+                && 0 <= p.y && p.y < (HEIGHT - 2 * s));
     }
     //@???
 
