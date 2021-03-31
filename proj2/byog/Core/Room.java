@@ -11,12 +11,24 @@ import java.util.*;
  * */
 public class Room {
     /* Deal with randomness. */
-    private static final long SEED = 0;
-    private static final Random RANDOM = new Random(SEED);
+    private static long SEED;
+    private static Random RANDOM;
+
+
 
     int w; // the width of the room
     int h; // the height of the room
     Position s; // represent the lower left point's position
+
+
+
+    public Room(int w, int h, Position p, long s) {
+        this.w = w;
+        this.h = h;
+        this.s = p;
+        SEED = s;
+        RANDOM = new Random(s);
+    }
 
     public Room(int w, int h, Position p) {
         this.w = w;

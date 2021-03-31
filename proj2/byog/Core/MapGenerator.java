@@ -26,10 +26,15 @@ public class MapGenerator {
 
     /* Deal with randomness. */
     private static long SEED;
-    private static final Random RANDOM = new Random(SEED);
+    private static Random RANDOM;
+
+    public MapGenerator() {
+
+    }
 
     public MapGenerator(long seed) {
         SEED = seed;
+        RANDOM = new Random(seed);
     }
 
     /**
@@ -186,7 +191,7 @@ public class MapGenerator {
     public void addTheDoor(TETile[][] world) {
         outerLoop:
         for (int i = 35; i < 45; i++) {
-            for (int j = 1; j < world[0].length; j++) {
+            for (int j = 1; j < world[0].length - 1; j++) {
                 if (world[i][j] == Tileset.WALL) {
                     if ((world[i][j + 1] == Tileset.FLOOR) &&
                             (world[i][j - 1] == Tileset.NOTHING)) {
@@ -207,7 +212,7 @@ public class MapGenerator {
             }
         }
 
-        MapGenerator mg = new MapGenerator(SEED);
+        MapGenerator mg = new MapGenerator();
 
         // test drawOneLine
         /*
@@ -222,7 +227,7 @@ public class MapGenerator {
 
         // test drawOneRandomRooms
         List<Room> rooms = mg.drawRandomRooms(world, RANDOM, 1000);
-        Room r = new Room(1, 1, null);
+        Room r = new Room(1, 1, null, SEED);
         r.connectRooms(rooms, world);
         r.drawWalls(world);
         mg.addTheDoor(world);
