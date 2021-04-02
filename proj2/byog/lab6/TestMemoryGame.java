@@ -19,10 +19,11 @@ public class TestMemoryGame {
         // test drawFrame(s), passed
         String s = "123456789";
         MemoryGame m = new MemoryGame(123);
-        m.drawFrame(s);
+        //m.drawFrame(s);
 
         // test drawFrame(s), passed
-        m.flashSequence(s);
+        //m.flashSequence(s);
+        m.solicitNCharsInput(10);
         //
 
 

@@ -107,7 +107,18 @@ public class MemoryGame {
 
     public String solicitNCharsInput(int n) {
         //TODO: Read n letters of player input
-        return null;
+        String s = "";
+        while (s.length() < n) {
+            if (StdDraw.hasNextKeyTyped()) {
+                s += StdDraw.nextKeyTyped();
+                StdDraw.clear();
+                Font font = new Font("Arial", Font.BOLD, 30);
+                StdDraw.setFont(font);
+                StdDraw.text(0.5, 0.5, s);
+                StdDraw.show();
+            }
+        }
+        return s;
     }
 
     public void startGame() {
