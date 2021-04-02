@@ -23,9 +23,12 @@ public class TestMemoryGame {
 
         // test drawFrame(s), passed
         //m.flashSequence(s);
-        m.solicitNCharsInput(10);
+
+        // test solicitNCharsInput, passed
+        // m.solicitNCharsInput(10);
         //
 
+        m.startGame();
 
 
 

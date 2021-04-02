@@ -125,6 +125,39 @@ public class MemoryGame {
         //TODO: Set any relevant variables before the game starts
 
         //TODO: Establish Game loop
+        // 	1. Start the game at round 1
+        StdDraw.setCanvasSize(800, 800);
+        for (int i = 1; i < 100; i ++) {
+            //	2. Display the message “Round: “ followed by
+            //     the round number in the center of the screen
+            StdDraw.clear();
+            Font font = new Font("Arial", Font.BOLD, 16);
+            StdDraw.setFont(font);
+            StdDraw.text(0.5, 0.5, "Round: " + i);
+            StdDraw.pause(3000);
+            //	3. Generate a random string of length equal to the current round number
+            String s = generateRandomString(i);
+            //	4. Display the random string one letter at a time
+            flashSequence(s);
+            //	5. Wait for the player to type in a string the same length as the target string
+            String userInput = solicitNCharsInput(s.length());
+            //	6. Check to see if the player got it correct
+            //	   • If they got it correct, repeat from step 2 after increasing the round by 1
+            //     • If they got it wrong, end the game and display the message
+            //       “Game Over! You made it to round:”
+            //       followed by the round number they failed in the center of the screen
+            if (!s.equals(userInput)) {
+                StdDraw.text(0.5, 0.5 ,"Game Over! You made it to round:" + i);
+                break;
+            }
+
+        }
+
+
+
+
+
+
     }
 
 }
