@@ -170,7 +170,7 @@ public class MapGenerator {
                 continue;
             }
             // make the rooms more distributed
-            if (Room.isNearFloorN(world, x, y, 3)) {
+            if (Room.isNearFloorN(world, x, y, 4)) {
                 continue;
             }
 

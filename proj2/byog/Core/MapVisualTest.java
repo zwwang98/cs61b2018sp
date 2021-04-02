@@ -26,7 +26,7 @@ public class MapVisualTest {
             }
         }
 
-        MapGenerator mg = new MapGenerator(5197880843569031643L);
+        MapGenerator mg = new MapGenerator(123123);
 
         // test drawOneLine
         /*
@@ -39,9 +39,9 @@ public class MapVisualTest {
         // s = new Position(0 ,0);
         // mg.drawOneRoom(world, s, 8, 8);
 
-        // test drawOneRandomRooms
+        // test drawRandomRooms
         List<Room> rooms = mg.drawRandomRooms(world, RANDOM, 1000);
-        Room r = new Room(1, 1, null);
+        Room r = new Room(1, 1, null, SEED);
         r.connectRooms(rooms, world);
         r.drawWalls(world);
         mg.addTheDoor(world);
