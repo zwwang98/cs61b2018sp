@@ -69,20 +69,22 @@ public class MemoryGame {
     public void drawFrame(String s) {
         //TODO: Take the string and display it in the center of the screen
         // clears the canvas
-        StdDraw.clear();
+
+
+        //TODO: If game is not over, display relevant game information at the top of the screen
         // sets the font to be large and bold (size 30 is appropriate),
         Font font = new Font("Arial", Font.BOLD, 30);
         StdDraw.setFont(font);
-        // draws the input string so that it is centered on the canvas,
-        StdDraw.text(0.5, 0.5, s);
-        // and then shows the canvas on the screen.
-        StdDraw.show();
-
-        //TODO: If game is not over, display relevant game information at the top of the screen
+        StdDraw.text(0.1, 0.97, "Round: " + s.charAt(s.length() - 1));
+        StdDraw.text(0.5, 0.97, s.substring(0, s.length() - 1));
+        StdDraw.text(0.8, 0.97, "You're a star!");
+        StdDraw.setPenRadius(0.01);
+        StdDraw.line(0, 0.94, 1, 0.94);
     }
 
     public void flashSequence(String letters) {
         //TODO: Display each character in letters, making sure to blank the screen between letters
+        int round  = letters.length();
         char[] chars = letters.toCharArray();
         for (char c : chars) {
             // clears the canvas
@@ -92,6 +94,8 @@ public class MemoryGame {
             StdDraw.setFont(font);
             // draws the input string so that it is centered on the canvas,
             StdDraw.text(0.5, 0.5, "" + c);
+
+            drawFrame("WATCH!" + round);
             // and then shows the canvas on the screen.
             StdDraw.show();
             // the description says that pause(int t) = pauses for t milliseconds
@@ -101,11 +105,14 @@ public class MemoryGame {
             // blank the screen between two characters
             StdDraw.clear();
             StdDraw.show();
+            drawFrame("WATCH!" + round);
             StdDraw.pause(500);
         }
     }
 
     public String solicitNCharsInput(int n) {
+        StdDraw.clear();
+        drawFrame("TYPE!" + n);
         //TODO: Read n letters of player input
         String s = "";
         while (s.length() < n) {
@@ -118,6 +125,8 @@ public class MemoryGame {
                 StdDraw.show();
             }
         }
+        // pause for 1000 milliseconds when user has finished the input
+        StdDraw.pause(1000);
         return s;
     }
 
@@ -131,10 +140,13 @@ public class MemoryGame {
             //	2. Display the message “Round: “ followed by
             //     the round number in the center of the screen
             StdDraw.clear();
-            Font font = new Font("Arial", Font.BOLD, 16);
+            // sets the font to be large and bold (size 30 is appropriate),
+            Font font = new Font("Arial", Font.BOLD, 30);
             StdDraw.setFont(font);
-            StdDraw.text(0.5, 0.5, "Round: " + i);
-            StdDraw.pause(3000);
+            // draws the input string so that it is centered on the canvas,
+            StdDraw.text(0.5, 0.5, "Round" + i);
+            // and then shows the canvas on the screen.
+            StdDraw.pause(2000);
             //	3. Generate a random string of length equal to the current round number
             String s = generateRandomString(i);
             //	4. Display the random string one letter at a time
