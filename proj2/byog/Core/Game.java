@@ -37,7 +37,7 @@ public class Game {
         long s = Long.parseLong(seed);
         TETile[][] finalWorldFrame = null;
         MapGenerator mg = new MapGenerator(s);
-        finalWorldFrame = mg.drawARandomWorld();
+        finalWorldFrame = mg.generateARandomWorld().map;
         return finalWorldFrame;
     }
 }

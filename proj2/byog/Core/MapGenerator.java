@@ -1,5 +1,6 @@
 package byog.Core;
 
+import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 import java.util.ArrayList;
@@ -31,29 +32,6 @@ public class MapGenerator {
     public MapGenerator(long seed) {
         SEED = seed;
         RANDOM = new Random(seed);
-    }
-
-    /**
-     * 我想直接把Hallway都当作L型的。这样一来：
-     * 1. 生成两个相邻room之间的hallway时，我们只需要在两个room中各选一个点，
-     *    再随机决定生成L型hallway的方向，就可以将两个room连接起来了。
-     * 2. hallway所谓的方向，就是 “正 L” 和 “倒 L”
-     *    *            *   |   * * *     * * *
-     *    *            *   |   *             *
-     *    * * *    * * *   |   *             *
-     *    正 L  ==>  true  |   倒 L  ==>  false
-     * 3. 不过仔细想一下，只有两个点x、y都不相同，才能形成L型hallway，否则就是straight hallway
-     *    所以可能加一个if-else简单处理一下这种情况先
-     * */
-    public static class Hallway {
-        // the length of the Hallway object
-        int l;
-        // the direction of the Hallway object, true for horizontal and false for vertical
-        boolean d;
-
-        public Hallway(int l, boolean d) {
-
-        }
     }
 
     /**
@@ -184,13 +162,31 @@ public class MapGenerator {
     }
 
     /**
+     * */
+    public Position addThePlayer(TETile[][] world) {
+        Position player = null;
+        outerLoop:
+        for (int i = 0; i < world.length; i++) {
+            for (int j = 0; j < world[0].length; j++) {
+                if (world[i][j] == Tileset.FLOOR) {
+                    world[i][j] = Tileset.PLAYER;
+                    player = new Position(i, j);
+                    break outerLoop;
+                }
+            }
+        }
+        return player;
+    }
+
+    /**
      * Choose a WALL tile to be the DOOR.
      * The tile above this WALL should be Tileset.FLOOR and
      * the tile below this WALL should be Tileset.NOTHING.
      * Besides, I hope the DOOR can be around the middle,
      * so let's limit the x between like 30-50 or 35-45
      * */
-    public void addTheDoor(TETile[][] world) {
+    public Position addTheDoor(TETile[][] world) {
+        Position door = null;
         outerLoop:
         for (int i = 35; i < 45; i++) {
             for (int j = 1; j < world[0].length - 1; j++) {
@@ -198,58 +194,66 @@ public class MapGenerator {
                     if ((world[i][j + 1] == Tileset.FLOOR)
                             && (world[i][j - 1] == Tileset.NOTHING)) {
                         world[i][j] = Tileset.LOCKED_DOOR;
+                        door = new Position(i, j);
                         // once we find an appropriate place, we don't need to find another one
                         break outerLoop;
                     }
                 }
             }
         }
+        return door;
     }
 
-    public TETile[][] drawARandomWorld() {
+    /**
+     * Draw a random world,
+     * but not draw it.
+     * */
+    public World generateARandomWorld() {
         // initialize tiles
-        TETile[][] world = new TETile[WIDTH][HEIGHT];
+        World world = new World(WIDTH, HEIGHT);
         for (int x = 0; x < WIDTH; x += 1) {
             for (int y = 0; y < HEIGHT; y += 1) {
-                world[x][y] = Tileset.NOTHING;
+                world.map[x][y] = Tileset.NOTHING;
             }
         }
 
         MapGenerator mg = new MapGenerator();
 
-        // test drawOneLine
-        /*
-        Position s = new Position(0, 5);
-        Position e = new Position(3, 5);
-        mg.drawOneLine(world, s, e, Tileset.FLOWER);
-         */
-
-        // test drwaOneRoom
-        // s = new Position(0 ,0);
-        // mg.drawOneRoom(world, s, 8, 8);
-
-        // test drawOneRandomRooms
-        List<Room> rooms = mg.drawRandomRooms(world, RANDOM, 1000);
+        List<Room> rooms = mg.drawRandomRooms(world.map, RANDOM, 1000);
         Room r = new Room(1, 1, null, SEED);
-        r.connectRooms(rooms, world);
-        r.drawWalls(world);
-        mg.addTheDoor(world);
+        r.connectRooms(rooms, world.map);
+        r.drawWalls(world.map);
+        Position door = mg.addTheDoor(world.map);
+        Position player = mg.addThePlayer(world.map);
+        world.DOOR = door;
+        world.PLAYER = player;
+        world.oldPlayer = player;
         return world;
     }
 
     /**
+     * Call the method generateARandomWorld to generate a random world
+     * and draw it out
      * */
-    public void addThePlayer(TETile[][] world) {
-        outerLoop:
-        for (int i = 0; i < world.length; i++) {
-            for (int j = 0; j < world[0].length; j++) {
-                if (world[i][j] == Tileset.FLOOR) {
-                    world[i][j] = Tileset.PLAYER;
-                    break outerLoop;
-                }
-            }
-        }
+    public void drawARandomWorld() {
+        TERenderer ter = new TERenderer();
+        ter.initialize(WIDTH, HEIGHT);
+
+        TETile[][] map = generateARandomWorld().map;
+
+        ter.renderFrame(map);
     }
+
+    /**
+     * Draw a given world
+     * */
+    public void drawAWorld(World world) {
+        TERenderer ter = new TERenderer();
+        ter.initialize(WIDTH, HEIGHT);
+        ter.renderFrame(world.map);
+    }
+
+
 
 
 

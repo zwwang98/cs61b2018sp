@@ -21,6 +21,10 @@ public class Position implements Comparable {
         return comp;
     }
 
+    public boolean equalsTo(Position p) {
+        return this.x == p.x && this.y == p.y;
+    }
+
     @Override
     public int compareTo(Object o) {
         Position p = (Position) o;
