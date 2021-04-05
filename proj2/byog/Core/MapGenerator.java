@@ -3,6 +3,8 @@ package byog.Core;
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
+import edu.princeton.cs.introcs.StdDraw;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -22,8 +24,8 @@ public class MapGenerator {
     public static final int HEIGHT = 30;
 
     /* Deal with randomness. */
-    private static long SEED;
-    private static Random RANDOM;
+    private long SEED;
+    private Random RANDOM;
 
     public MapGenerator() {
 
@@ -205,7 +207,7 @@ public class MapGenerator {
     }
 
     /**
-     * Draw a random world,
+     * Generate a random world,
      * but not draw it.
      * */
     public World generateARandomWorld() {
@@ -228,6 +230,74 @@ public class MapGenerator {
         world.DOOR = door;
         world.PLAYER = player;
         world.oldPlayer = player;
+        return world;
+    }
+
+    /**
+     * Generate a world with given seed and even movements.
+     * */
+    public World generateAWorld(long seed, String movements) {
+        // initialize tiles
+        World world = new World(WIDTH, HEIGHT);
+        for (int x = 0; x < WIDTH; x += 1) {
+            for (int y = 0; y < HEIGHT; y += 1) {
+                world.map[x][y] = Tileset.NOTHING;
+            }
+        }
+
+        MapGenerator mg = new MapGenerator(seed);
+
+        List<Room> rooms = mg.drawRandomRooms(world.map, mg.RANDOM, 1000);
+        Room r = new Room(1, 1, null, SEED);
+        r.connectRooms(rooms, world.map);
+        r.drawWalls(world.map);
+        Position door = mg.addTheDoor(world.map);
+        Position player = mg.addThePlayer(world.map);
+        world.DOOR = door;
+        world.PLAYER = player;
+        world.oldPlayer = player;
+
+        // move the PLAYER according to the input string
+        world = moveWithStrings(world, movements);
+        return world;
+    }
+
+    public World moveWithStrings(World world, String movements) {
+        char[] m = movements.toCharArray();
+        for (char c : m) {
+            String s = "" + c;
+            switch (s) {
+                case "w":
+                    if (world.map[world.PLAYER.x][world.PLAYER.y + 1] == Tileset.FLOOR
+                            || world.map[world.PLAYER.x][world.PLAYER.y + 1] == Tileset.LOCKED_DOOR) {
+                        world.PLAYER = new Position(world.PLAYER.x, world.PLAYER.y + 1);
+                        world = world.updateTheWorld(world);
+                    }
+                    break;
+                case "a":
+                    if (world.map[world.PLAYER.x - 1][world.PLAYER.y] == Tileset.FLOOR
+                            || world.map[world.PLAYER.x - 1][world.PLAYER.y] == Tileset.LOCKED_DOOR) {
+                        world.PLAYER = new Position(world.PLAYER.x - 1, world.PLAYER.y);
+                        world.updateTheWorld(world);
+                    }
+                    break;
+                case"s" :
+                    if (world.map[world.PLAYER.x][world.PLAYER.y - 1] == Tileset.FLOOR
+                            || world.map[world.PLAYER.x][world.PLAYER.y - 1] == Tileset.LOCKED_DOOR) {
+                        world.PLAYER = new Position(world.PLAYER.x, world.PLAYER.y - 1);
+                        world.updateTheWorld(world);
+                    }
+                    break;
+                case "d":
+                    if (world.map[world.PLAYER.x + 1][world.PLAYER.y] == Tileset.FLOOR
+                            || world.map[world.PLAYER.x + 1][world.PLAYER.y] == Tileset.LOCKED_DOOR) {
+                        world.PLAYER = new Position(world.PLAYER.x + 1, world.PLAYER.y);
+                        world.updateTheWorld(world);
+                    }
+                    break;
+            }
+
+        }
         return world;
     }
 

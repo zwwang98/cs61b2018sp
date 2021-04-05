@@ -3,6 +3,8 @@ package byog.Core;
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 
+import java.util.Locale;
+
 public class Game {
     TERenderer ter = new TERenderer();
     /* Feel free to change the width and height. */
@@ -32,12 +34,20 @@ public class Game {
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
 
+        // be able to handle input strings that include movement
+        // separate input string into two parts:
+        // 1. seed
+        // 2. movements (in lower case)
+        int separatePoint = input.toLowerCase(Locale.ROOT).indexOf('s');
+        String seed = input.substring(1, separatePoint);
+        String movements = input.substring(separatePoint + 1, input.length()).toLowerCase(Locale.ROOT);
+
         // the input string would be something like "NXXXS", we need to remove the N and the S
-        String seed = input.substring(1, input.length() - 1);
+        //String seed = input.substring(1, input.length() - 1);
         long s = Long.parseLong(seed);
         TETile[][] finalWorldFrame = null;
         MapGenerator mg = new MapGenerator(s);
-        finalWorldFrame = mg.generateARandomWorld().map;
+        finalWorldFrame = mg.generateAWorld(s, movements).map;
         return finalWorldFrame;
     }
 }
