@@ -3,7 +3,9 @@ package byog.Core;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 
-public class World {
+import java.io.Serializable;
+
+public class World implements Serializable {
     int width;
     int height;
     TETile[][] map;

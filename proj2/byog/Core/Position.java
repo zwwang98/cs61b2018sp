@@ -1,8 +1,9 @@
 package byog.Core;
 
+import java.io.Serializable;
 import java.util.Comparator;
 
-public class Position implements Comparable {
+public class Position implements Comparable, Serializable {
     int x;
     int y;
 

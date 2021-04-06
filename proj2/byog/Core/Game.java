@@ -3,6 +3,7 @@ package byog.Core;
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 
+import java.io.IOException;
 import java.util.Locale;
 
 public class Game {
@@ -14,7 +15,10 @@ public class Game {
     /**
      * Method used for playing a fresh game. The game should start from the main menu.
      */
-    public void playWithKeyboard() {
+    public void playWithKeyboard() throws IOException, ClassNotFoundException {
+        UI ui = new UI();
+        ui.drawMainMenu();
+        ui.solicitMainMenuOption();
     }
 
     /**
