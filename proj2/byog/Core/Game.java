@@ -2,12 +2,14 @@ package byog.Core;
 
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
+import byog.TileEngine.Tileset;
+import edu.princeton.cs.introcs.StdDraw;
 
-import java.io.IOException;
+import java.awt.*;
+import java.io.*;
 import java.util.Locale;
 
 public class Game {
-    TERenderer ter = new TERenderer();
     /* Feel free to change the width and height. */
     public static final int WIDTH = 80;
     public static final int HEIGHT = 30;
@@ -16,9 +18,23 @@ public class Game {
      * Method used for playing a fresh game. The game should start from the main menu.
      */
     public void playWithKeyboard() throws IOException, ClassNotFoundException {
-        UI ui = new UI();
-        ui.drawMainMenu();
-        ui.solicitMainMenuOption();
+        UI.drawMainMenu();
+        String option = solicitKeyboardInput();
+        while (true) {
+            if (option.equals("n")) {
+                String s = solicitNewGameSeed();
+                MapGenerator mg = new MapGenerator(Long.parseLong(s));
+                World world = mg.generateARandomWorld();
+                World.renderWorld(world);
+                playTheGame(world);
+            }
+            if (option.equals("l")) {
+                World loadWorld = loadGame();
+                World.renderWorld(loadWorld);
+                playTheGame2(loadWorld);
+            }
+            option = solicitKeyboardInput();
+        }
     }
 
     /**
@@ -53,5 +69,262 @@ public class Game {
         MapGenerator mg = new MapGenerator(s);
         finalWorldFrame = mg.generateAWorld(s, movements).map;
         return finalWorldFrame;
+    }
+
+    /**
+     * Solicit keyboard's input.
+     * Return strings in lower case.
+     * */
+    public String solicitKeyboardInput() {
+        while (!StdDraw.hasNextKeyTyped()) {
+            StdDraw.pause(10);
+        }
+        return ("" + StdDraw.nextKeyTyped()).toLowerCase(Locale.ROOT);
+    }
+
+    public void solicitMainMenuOption() throws IOException, ClassNotFoundException {
+        String s = "";
+        TERenderer ter = new TERenderer();
+        while (true) {
+            String option = solicitKeyboardInput();
+            switch (option) {
+                case "n":
+                    s = solicitNewGameSeed();
+                    MapGenerator mg = new MapGenerator(Long.parseLong(s));
+                    World world = mg.generateARandomWorld();
+
+                    ter.initialize(WIDTH, HEIGHT);
+                    ter.renderFrame(world.map);
+                    playTheGame(world);
+                    break;
+                case "l":
+                    World loadWorld = loadGame();
+                    ter.initialize(WIDTH, HEIGHT);
+                    ter.renderFrame(loadWorld.map);
+                    playTheGame(loadWorld);
+                    break;
+            }
+        }
+    }
+
+    /**
+     * After pressing N for "new game",
+     * we use StdDraw's key listening API to read in what the player typed.
+     * */
+    public String solicitNewGameSeed() {
+        Font font = new Font("Arial", Font.BOLD, 30);
+        StdDraw.setFont(font);
+        StdDraw.clear(StdDraw.BLACK);
+        StdDraw.text(WIDTH / 2, HEIGHT / 2 + 8, "Text a seed consisting of integers");
+        StdDraw.text(WIDTH / 2, HEIGHT / 2 + 4, "Press S to confirm the seed.");
+
+        String s = "";
+        StdDraw.setPenColor(StdDraw.WHITE);
+        while (s.length() < 10){
+            if (StdDraw.hasNextKeyTyped()) {
+                s += StdDraw.nextKeyTyped();
+                if (Character.toLowerCase(s.charAt(s.length() - 1)) == 's') {
+                    s = s.substring(0, s.length() - 1);
+                    break;
+                }
+                StdDraw.clear(StdDraw.BLACK);
+                StdDraw.text(WIDTH / 2, HEIGHT / 2 + 8, "Text a seed consisting of integers");
+                StdDraw.text(WIDTH / 2, HEIGHT / 2 + 4, "Press S to confirm the seed.");
+                StdDraw.text(WIDTH / 2, HEIGHT / 2 - 2, s);
+                StdDraw.show();
+            }
+        }
+        // StdDraw.pause(1000); // USELESS
+        return s;
+    }
+
+    /**
+     * With this method and the method below, now we could
+     * display the description of the tile under the mouse pointer.
+     *
+     * @Source https://github.com/Joshmomel/CS61B/blob/master/proj2/byog/Core/Game.java line 149
+     * */
+    public char waitForControlKey(World world) {
+        while (!StdDraw.hasNextKeyTyped()) {
+            StdDraw.pause(10);
+            mouseTile(world);
+        }
+        return StdDraw.nextKeyTyped();
+    }
+
+    /**
+     * Problem to solve:
+     * 1. after loading, I cannot move the PLAYER pressing WASD. I don't know why.
+     * */
+
+
+
+
+
+
+
+
+    /**
+     * @Source https://github.com/Joshmomel/CS61B/blob/master/proj2/byog/Core/Game.java line 158
+     * */
+    public void mouseTile(World world) {
+        double x = StdDraw.mouseX();
+        double y = StdDraw.mouseY();
+        int w = (int) Math.floorDiv((long) x, 1);
+        int h = (int) Math.floorDiv((long) y, 1);
+        if (h >= HEIGHT) {
+            h = HEIGHT - 1;
+        }
+        if (w >= WIDTH) {
+            w = WIDTH - 1;
+        }
+        TETile tile = world.map[w][h];
+        StdDraw.setPenColor(Color.BLACK);
+        StdDraw.filledRectangle(0, HEIGHT - 1, WIDTH / 8, 1);
+        StdDraw.setPenColor(Color.PINK);
+        StdDraw.textLeft(1, HEIGHT - 1, tile.description());
+        StdDraw.show();
+        StdDraw.pause(50); // USELESS
+    }
+
+
+    /**
+     * After generating a random world,
+     * user can use WASD to move the PLAYER tile
+     * until it reach the DOOR tile
+     * */
+    public void playTheGame(World world) throws IOException, ClassNotFoundException {
+        // move the player until it reach the door
+        while (true) {
+            String direction = ("" + waitForControlKey(world));
+            // move the PLAYER according to user's input
+            // W-UP, A-LEFT, S-DOWN, D-RIGHT
+            if (direction.equals("w")) {
+                moveThePlayer(world, up);
+            }
+            if (direction.equals("a")) {
+                moveThePlayer(world, left);
+            }
+            if (direction.equals("s")) {
+                moveThePlayer(world, down);
+            }
+            if (direction.equals("d")) {
+                moveThePlayer(world, right);
+            }
+            if (direction.equals("q")) {
+                saveGame(world);
+                playWithKeyboard();
+            }
+            if (world.DOOR.equalsTo(world.PLAYER)) {
+                StdDraw.clear(StdDraw.RED);
+                StdDraw.setFont(new Font("Arial", Font.BOLD, 60));
+                StdDraw.setPenColor(StdDraw.WHITE);
+                StdDraw.text(40, 15, "You win!");
+                StdDraw.show();
+                break;
+            }
+        }
+    }
+
+    /**
+     * After generating a random world,
+     * user can use WASD to move the PLAYER tile
+     * until it reach the DOOR tile
+     * */
+    public void playTheGame2(World world) throws IOException, ClassNotFoundException {
+        // move the player until it reach the door
+        while (true) {
+            String direction = ("" + waitForControlKey(world));
+            // move the PLAYER according to user's input
+            // W-UP, A-LEFT, S-DOWN, D-RIGHT
+            if (direction.equals("w")) {
+                moveThePlayer(world, up);
+            }
+            if (direction.equals("a")) {
+                moveThePlayer(world, left);
+            }
+            if (direction.equals("s")) {
+                moveThePlayer(world, down);
+            }
+            if (direction.equals("d")) {
+                moveThePlayer(world, right);
+            }
+            if (direction.equals("q")) {
+                saveGame(world);
+                playWithKeyboard();
+            }
+            if (world.DOOR.equalsTo(world.PLAYER)) {
+                StdDraw.clear(StdDraw.RED);
+                StdDraw.setFont(new Font("Arial", Font.BOLD, 60));
+                StdDraw.setPenColor(StdDraw.WHITE);
+                StdDraw.text(40, 15, "You win!");
+                StdDraw.show();
+                break;
+            }
+        }
+    }
+
+    Position up = new Position(0, 1);     // up
+    Position down  = new Position(0, -1); // DOWN
+    Position right = new Position(1, 0);  // RIGHT
+    Position left = new Position(-1, 0);  // LEFT
+    Position[] directions = new Position[]{up, down, right, left};
+
+    public void moveThePlayer(World world, Position direction) {
+        int x = world.PLAYER.x;
+        int y = world.PLAYER.y;
+        // if this movement is valid
+        if (world.map[x + direction.x][y + direction.y] == Tileset.FLOOR) {
+            world.PLAYER = new Position(x + direction.x, y + direction.y);
+            world.updateTheWorld(world);
+            // curX and curY represent current PLAYER's coordinate
+            int curX = world.PLAYER.x;
+            int curY = world.PLAYER.y;
+            world.map[curX][curY].draw(curX, curY);
+            world.map[x][y].draw(x, y);
+        }
+        // if the player reaches the door
+        if (world.map[x + direction.x][y + direction.y] == Tileset.LOCKED_DOOR) {
+            world.PLAYER = new Position(x + direction.x, y + direction.y);
+            world.updateTheWorld(world);
+            world.map[x][y].draw(x, y);
+            int doorX = world.DOOR.x;
+            int doorY = world.DOOR.y;
+            world.map[doorX][doorY].draw(doorX, doorY);
+        }
+    }
+
+    /**
+     * After pressing L for "load game",
+     * */
+    public World loadGame() throws IOException, ClassNotFoundException {
+        World world = null;
+        try {
+            FileInputStream fileIn = new FileInputStream(
+                    "./world.txt");
+            ObjectInputStream in = new ObjectInputStream(fileIn);
+            world = (World) in.readObject();
+            in.close();
+            fileIn.close();
+        } catch(IOException i) {
+            i.printStackTrace();
+            return null;
+        } catch(ClassNotFoundException c) {
+            System.out.println("World class not found");
+            c.printStackTrace();
+            return null;
+        }
+        return world;
+    }
+
+    public void saveGame(World world) throws IOException {
+        File f = new File("./world.txt");
+        try {
+            FileOutputStream fs = new FileOutputStream(f);
+            ObjectOutputStream os = new ObjectOutputStream(fs);
+            os.writeObject(world);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
     }
 }

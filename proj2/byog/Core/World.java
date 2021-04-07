@@ -1,5 +1,6 @@
 package byog.Core;
 
+import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 
@@ -35,4 +36,9 @@ public class World implements Serializable {
         return world;
     }
 
+    public static void renderWorld(World world) {
+        TERenderer ter = new TERenderer();
+        ter.initialize(world.width, world.height);
+        ter.renderFrame(world.map);
+    }
 }
