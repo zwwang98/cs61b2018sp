@@ -197,26 +197,33 @@ public class Game {
      * */
     public void playTheGame(World world) throws IOException, ClassNotFoundException {
         // move the player until it reach the door
+        String colonQ  = "";
         while (true) {
             String direction = waitForControlKey(world);
             // move the PLAYER according to user's input
             // W-UP, A-LEFT, S-DOWN, D-RIGHT
-            if (direction.equals("w")) {
-                moveThePlayer(world, up);
+            switch (direction) {
+                case "w":
+                    moveThePlayer(world, up);
+                    continue;
+                case "a":
+                    moveThePlayer(world, left);
+                    continue;
+                case "s":
+                    moveThePlayer(world, down);
+                    continue;
+                case "d":
+                    moveThePlayer(world, right);
+                    continue;
             }
-            if (direction.equals("a")) {
-                moveThePlayer(world, left);
+
+            if (direction.equals(":")) {
+                if (waitForControlKey(world).equals("q")) {
+                    saveGame(world);
+                    playWithKeyboard();
+                }
             }
-            if (direction.equals("s")) {
-                moveThePlayer(world, down);
-            }
-            if (direction.equals("d")) {
-                moveThePlayer(world, right);
-            }
-            if (direction.equals("q")) {
-                saveGame(world);
-                playWithKeyboard();
-            }
+
             if (world.DOOR.equalsTo(world.PLAYER)) {
                 StdDraw.clear(StdDraw.RED);
                 StdDraw.setFont(new Font("Arial", Font.BOLD, 60));
