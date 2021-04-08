@@ -237,7 +237,7 @@ public class MapGenerator {
     /**
      * Generate a world with given seed and even movements.
      * */
-    public World generateAWorld(long seed, String movements) throws IOException {
+    public World generateAWorld(long seed, String movements) {
         // initialize tiles
         World world = new World(WIDTH, HEIGHT);
         for (int x = 0; x < WIDTH; x += 1) {
@@ -263,13 +263,13 @@ public class MapGenerator {
         return world;
     }
 
-    public World loadAWorld(World world, String movements) throws IOException {
+    public World loadAWorld(World world, String movements) {
         // move the PLAYER according to the input string
         world = moveWithStrings(world, movements);
         return world;
     }
 
-    public World moveWithStrings(World world, String movements) throws IOException {
+    public World moveWithStrings(World world, String movements) {
         char[] m = movements.toCharArray();
         for (char c : m) {
             String s = "" + c;

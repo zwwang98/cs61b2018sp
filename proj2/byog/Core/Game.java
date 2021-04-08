@@ -57,7 +57,7 @@ public class Game {
      * @param input the input string to feed to your program
      * @return the 2D TETile[][] representing the state of the world
      */
-    public TETile[][] playWithInputString(String input) throws IOException, ClassNotFoundException {
+    public TETile[][] playWithInputString(String input) {
         // Fill out this method to run the game using the input passed in,
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
@@ -289,7 +289,7 @@ public class Game {
     /**
      * After pressing L for "load game",
      * */
-    public World loadGame() throws IOException, ClassNotFoundException {
+    public World loadGame() {
         World world = null;
         try {
             FileInputStream fileIn = new FileInputStream(
@@ -309,7 +309,7 @@ public class Game {
         return world;
     }
 
-    public static void saveGame(World world) throws IOException {
+    public static void saveGame(World world) {
         File f = new File("./world.txt");
         try {
             FileOutputStream fs = new FileOutputStream(f);

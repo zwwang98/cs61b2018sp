@@ -5,7 +5,7 @@ import byog.TileEngine.TETile;
 import java.io.IOException;
 
 public class TestTwice {
-    public static void main(String[] args) throws IOException, ClassNotFoundException {
+    public static void main(String[] args) {
         Game g = new Game();
 
         TETile[][] world1 = g.playWithInputString("N999SDDDWWWDDD:Q");
