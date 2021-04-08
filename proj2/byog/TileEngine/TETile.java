@@ -154,7 +154,7 @@ public class TETile  implements Serializable {
      * @return string representation of the world
      */
     public static String toString(TETile[][] world) {
-        int width = world.length;
+        int width =  world.length;
         int height = world[0].length;
         StringBuilder sb = new StringBuilder();
 

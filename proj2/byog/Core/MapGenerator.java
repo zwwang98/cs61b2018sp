@@ -5,6 +5,7 @@ import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 import edu.princeton.cs.introcs.StdDraw;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -236,7 +237,7 @@ public class MapGenerator {
     /**
      * Generate a world with given seed and even movements.
      * */
-    public World generateAWorld(long seed, String movements) {
+    public World generateAWorld(long seed, String movements) throws IOException {
         // initialize tiles
         World world = new World(WIDTH, HEIGHT);
         for (int x = 0; x < WIDTH; x += 1) {
@@ -262,7 +263,13 @@ public class MapGenerator {
         return world;
     }
 
-    public World moveWithStrings(World world, String movements) {
+    public World loadAWorld(World world, String movements) throws IOException {
+        // move the PLAYER according to the input string
+        world = moveWithStrings(world, movements);
+        return world;
+    }
+
+    public World moveWithStrings(World world, String movements) throws IOException {
         char[] m = movements.toCharArray();
         for (char c : m) {
             String s = "" + c;
@@ -295,6 +302,12 @@ public class MapGenerator {
                         world.updateTheWorld(world);
                     }
                     break;
+            }
+            if (s.equals(":")) {
+                continue;
+            }
+            if (s.equals("q") && movements.charAt(movements.indexOf(s) - 1) == ':') {
+                Game.saveGame(world);
             }
 
         }

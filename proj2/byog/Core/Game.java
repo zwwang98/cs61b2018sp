@@ -8,6 +8,7 @@ import edu.princeton.cs.introcs.StdDraw;
 import java.awt.*;
 import java.io.*;
 import java.util.Locale;
+import java.util.Map;
 
 public class Game {
     /* Feel free to change the width and height. */
@@ -48,10 +49,15 @@ public class Game {
      * world. However, the behavior is slightly different. After playing with "n123sss:q", the game
      * should save, and thus if we then called playWithInputString with the string "l", we'd expect
      * to get the exact same world back again, since this corresponds to loading the saved game.
+     *
+     * 这里的input有两种情况：
+     * 1. 包含种子的，比如 "n123sss:q"，这就是一个 new game
+     * 2. 不包含种子的，这种就基本是 load a saved game了，所以此时的input一般是l开头的
+     *
      * @param input the input string to feed to your program
      * @return the 2D TETile[][] representing the state of the world
      */
-    public TETile[][] playWithInputString(String input) {
+    public TETile[][] playWithInputString(String input) throws IOException, ClassNotFoundException {
         // Fill out this method to run the game using the input passed in,
         // and return a 2D tile representation of the world that would have been
         // drawn if the same inputs had been given to playWithKeyboard().
@@ -60,17 +66,29 @@ public class Game {
         // separate input string into two parts:
         // 1. seed
         // 2. movements (in lower case)
-        int separatePoint = input.toLowerCase(Locale.ROOT).indexOf('s');
-        String seed = input.substring(1, separatePoint);
-        String movements = input.substring(separatePoint + 1, input.length()).toLowerCase(Locale.ROOT);
+        input = input.toLowerCase(Locale.ROOT);
+        TETile[][] world = null;
 
-        // the input string would be something like "NXXXS", we need to remove the N and the S
-        //String seed = input.substring(1, input.length() - 1);
-        long s = Long.parseLong(seed);
-        TETile[][] finalWorldFrame = null;
-        MapGenerator mg = new MapGenerator(s);
-        finalWorldFrame = mg.generateAWorld(s, movements).map;
-        return finalWorldFrame;
+        if (input.charAt(0) == 'n') {
+            int separatePoint = input.toLowerCase(Locale.ROOT).indexOf('s');
+            String seed = input.substring(1, separatePoint);
+            String movements = input.substring(separatePoint + 1, input.length()).toLowerCase(Locale.ROOT);
+
+            // the input string would be something like "NXXXS", we need to remove the N and the S
+            //String seed = input.substring(1, input.length() - 1);
+            long s = Long.parseLong(seed);
+            MapGenerator mg = new MapGenerator(s);
+            world = mg.generateAWorld(s, movements).map;
+        }
+        // Load a saved game
+        if (input.charAt(0) == 'l') {
+            String movements = input.substring(1, input.length());
+            World loadGame = loadGame();
+            MapGenerator mg = new MapGenerator();
+            world = mg.loadAWorld(loadGame, movements).map;
+        }
+
+        return world;
     }
 
     /**
@@ -291,7 +309,7 @@ public class Game {
         return world;
     }
 
-    public void saveGame(World world) throws IOException {
+    public static void saveGame(World world) throws IOException {
         File f = new File("./world.txt");
         try {
             FileOutputStream fs = new FileOutputStream(f);
