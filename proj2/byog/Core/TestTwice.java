@@ -11,8 +11,7 @@ public class TestTwice {
 
         TETile[][] world1 = g.playWithInputString("n5017254678959904157swdssswwawsdds");
         System.out.println(TETile.toString(world1));
-        TETile[][] world2 = g.playWithInputString("n5017254678959904157swdssswwa:q");
-        world2 = g.playWithInputString("lwsdds");
+        TETile[][] world2 = g.playWithInputString("n5017254678959904157swdssswwawsdds");
         System.out.println(TETile.toString(world2));
         System.out.println(Arrays.deepEquals(world1, world2));
     }

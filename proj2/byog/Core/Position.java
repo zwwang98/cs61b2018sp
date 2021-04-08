@@ -23,6 +23,9 @@ public class Position implements Comparable, Serializable {
     }
 
     public boolean equalsTo(Position p) {
+        if (p == null) {
+            return false;
+        }
         return this.x == p.x && this.y == p.y;
     }
 
