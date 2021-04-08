@@ -3,9 +3,6 @@ package byog.Core;
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
-import edu.princeton.cs.algs4.StdDraw;
-
-import java.awt.*;
 import java.util.List;
 import java.util.Random;
 

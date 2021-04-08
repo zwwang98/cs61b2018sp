@@ -5,10 +5,15 @@ import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
 import edu.princeton.cs.introcs.StdDraw;
 
-import java.awt.*;
-import java.io.*;
+
+import java.awt.Font;
+import java.io.FileInputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.FileOutputStream;
+import java.io.File;
 import java.util.Locale;
-import java.util.Map;
 
 public class Game {
     /* Feel free to change the width and height. */
@@ -18,7 +23,7 @@ public class Game {
     /**
      * Method used for playing a fresh game. The game should start from the main menu.
      */
-    public void playWithKeyboard() throws IOException, ClassNotFoundException {
+    public void playWithKeyboard() {
         UI.drawMainMenu();
         String option = solicitKeyboardInput();
         while (true) {
@@ -72,7 +77,8 @@ public class Game {
         if (input.charAt(0) == 'n') {
             int separatePoint = input.toLowerCase(Locale.ROOT).indexOf('s');
             String seed = input.substring(1, separatePoint);
-            String movements = input.substring(separatePoint + 1, input.length()).toLowerCase(Locale.ROOT);
+            String movements =
+                    input.substring(separatePoint + 1, input.length()).toLowerCase(Locale.ROOT);
 
             // the input string would be something like "NXXXS", we need to remove the N and the S
             //String seed = input.substring(1, input.length() - 1);
@@ -123,6 +129,7 @@ public class Game {
                     ter.renderFrame(loadWorld.map);
                     playTheGame(loadWorld);
                     break;
+                default:
             }
         }
     }
@@ -140,7 +147,7 @@ public class Game {
 
         String s = "";
         StdDraw.setPenColor(StdDraw.WHITE);
-        while (s.length() < 10){
+        while (s.length() < 10) {
             if (StdDraw.hasNextKeyTyped()) {
                 s += StdDraw.nextKeyTyped();
                 if (Character.toLowerCase(s.charAt(s.length() - 1)) == 's') {
@@ -199,9 +206,9 @@ public class Game {
             w = WIDTH - 1;
         }
         TETile tile = world.map[w][h];
-        StdDraw.setPenColor(Color.BLACK);
+        StdDraw.setPenColor(StdDraw.BLACK);
         StdDraw.filledRectangle(0, HEIGHT - 1, WIDTH / 8, 1);
-        StdDraw.setPenColor(Color.PINK);
+        StdDraw.setPenColor(StdDraw.PINK);
         StdDraw.textLeft(1, HEIGHT - 1, tile.description());
         StdDraw.show();
         StdDraw.pause(50); // USELESS
@@ -213,7 +220,7 @@ public class Game {
      * user can use WASD to move the PLAYER tile
      * until it reach the DOOR tile
      * */
-    public void playTheGame(World world) throws IOException, ClassNotFoundException {
+    public void playTheGame(World world) {
         // move the player until it reach the door
         String colonQ  = "";
         while (true) {
@@ -233,6 +240,7 @@ public class Game {
                 case "d":
                     moveThePlayer(world, right);
                     continue;
+                default:
             }
 
             if (direction.equals(":")) {
@@ -298,10 +306,10 @@ public class Game {
             world = (World) in.readObject();
             in.close();
             fileIn.close();
-        } catch(IOException i) {
+        } catch (IOException i) {
             i.printStackTrace();
             return null;
-        } catch(ClassNotFoundException c) {
+        } catch (ClassNotFoundException c) {
             System.out.println("World class not found");
             c.printStackTrace();
             return null;

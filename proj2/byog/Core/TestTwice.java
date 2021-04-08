@@ -1,8 +1,6 @@
 package byog.Core;
 
 import byog.TileEngine.TETile;
-
-import java.io.IOException;
 import java.util.Arrays;
 
 public class TestTwice {

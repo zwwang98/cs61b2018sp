@@ -3,9 +3,6 @@ package byog.Core;
 import byog.TileEngine.TERenderer;
 import byog.TileEngine.TETile;
 import byog.TileEngine.Tileset;
-import edu.princeton.cs.introcs.StdDraw;
-
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -276,33 +273,39 @@ public class MapGenerator {
             switch (s) {
                 case "w":
                     if (world.map[world.PLAYER.x][world.PLAYER.y + 1].description().equals("floor")
-                            || world.map[world.PLAYER.x][world.PLAYER.y + 1].description().equals("locked door")) {
+                            || world.map[world.PLAYER.x][world.PLAYER.y + 1].
+                            description().equals("locked door")) {
                         world.PLAYER = new Position(world.PLAYER.x, world.PLAYER.y + 1);
                         world = world.updateTheWorld(world);
                     }
                     break;
                 case "a":
                     if (world.map[world.PLAYER.x - 1][world.PLAYER.y].description().equals("floor")
-                            || world.map[world.PLAYER.x - 1][world.PLAYER.y].description().equals("locked door")) {
+                            || world.map[world.PLAYER.x - 1][world.PLAYER.y].
+                            description().equals("locked door")) {
                         world.PLAYER = new Position(world.PLAYER.x - 1, world.PLAYER.y);
                         world.updateTheWorld(world);
                     }
                     break;
                 case"s" :
                     if (world.map[world.PLAYER.x][world.PLAYER.y - 1].description().equals("floor")
-                            || world.map[world.PLAYER.x][world.PLAYER.y - 1].description().equals("locked door")){
+                            || world.map[world.PLAYER.x][world.PLAYER.y - 1].
+                            description().equals("locked door")) {
                         world.PLAYER = new Position(world.PLAYER.x, world.PLAYER.y - 1);
                         world.updateTheWorld(world);
                     }
                     break;
                 case "d":
                     if (world.map[world.PLAYER.x + 1][world.PLAYER.y].description().equals("floor")
-                            || world.map[world.PLAYER.x + 1][world.PLAYER.y].description().equals("locked door")) {
+                            || world.map[world.PLAYER.x + 1][world.PLAYER.y]
+                            .description().equals("locked door")) {
                         world.PLAYER = new Position(world.PLAYER.x + 1, world.PLAYER.y);
                         world.updateTheWorld(world);
                     }
                     break;
+                default:
             }
+
             if (s.equals(":")) {
                 continue;
             }

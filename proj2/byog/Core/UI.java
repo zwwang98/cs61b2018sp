@@ -1,16 +1,10 @@
 package byog.Core;
 
-import byog.TileEngine.TERenderer;
-import byog.TileEngine.TETile;
-import byog.TileEngine.Tileset;
 import edu.princeton.cs.introcs.StdDraw;
+import java.awt.Font;
 
-import javax.annotation.processing.SupportedSourceVersion;
-import java.awt.*;
-import java.awt.font.GlyphMetrics;
-import java.io.*;
-import java.util.Locale;
-import java.util.Map;
+import java.io.IOException;
+
 
 /**
  * Generate users' interface
@@ -27,7 +21,7 @@ public class UI {
         StdDraw.setYscale(0, HEIGHT);
         StdDraw.clear(StdDraw.BLACK);
 
-        StdDraw.setPenColor(Color.WHITE);
+        StdDraw.setPenColor(StdDraw.WHITE);
         StdDraw.setFont(new Font("Arial", Font.BOLD, 60));
         StdDraw.text(WIDTH / 2, HEIGHT * 0.7, "The Maze");
         StdDraw.setFont(new Font("Arial", Font.BOLD, 30));

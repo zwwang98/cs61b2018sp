@@ -30,7 +30,7 @@ public class World implements Serializable {
         world.map[PLAYER.x][PLAYER.y] = Tileset.PLAYER;
         oldPlayer = PLAYER;
         // if the PLAYER has reached the DOOR
-        if(PLAYER.equalsTo(DOOR)) {
+        if (PLAYER.equalsTo(DOOR)) {
             world.map[DOOR.x][DOOR.y] = Tileset.UNLOCKED_DOOR;
         }
         return world;
