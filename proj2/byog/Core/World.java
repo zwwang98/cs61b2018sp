@@ -41,4 +41,17 @@ public class World implements Serializable {
         ter.initialize(world.width, world.height);
         ter.renderFrame(world.map);
     }
+
+    public boolean equals(World world) {
+        int w = world.width;
+        int h = world.height;
+        for (int i = 0; i < w; i++) {
+            for (int j = 0; j < h; j++) {
+                if (!this.map[i][j].description().equals(world.map[i][j].description())) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
 }

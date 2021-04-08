@@ -275,29 +275,29 @@ public class MapGenerator {
             String s = "" + c;
             switch (s) {
                 case "w":
-                    if (world.map[world.PLAYER.x][world.PLAYER.y + 1] == Tileset.FLOOR
-                            || world.map[world.PLAYER.x][world.PLAYER.y + 1] == Tileset.LOCKED_DOOR) {
+                    if (world.map[world.PLAYER.x][world.PLAYER.y + 1].description().equals("floor")
+                            || world.map[world.PLAYER.x][world.PLAYER.y + 1].description().equals("locked door")) {
                         world.PLAYER = new Position(world.PLAYER.x, world.PLAYER.y + 1);
                         world = world.updateTheWorld(world);
                     }
                     break;
                 case "a":
-                    if (world.map[world.PLAYER.x - 1][world.PLAYER.y] == Tileset.FLOOR
-                            || world.map[world.PLAYER.x - 1][world.PLAYER.y] == Tileset.LOCKED_DOOR) {
+                    if (world.map[world.PLAYER.x - 1][world.PLAYER.y].description().equals("floor")
+                            || world.map[world.PLAYER.x - 1][world.PLAYER.y].description().equals("locked door")) {
                         world.PLAYER = new Position(world.PLAYER.x - 1, world.PLAYER.y);
                         world.updateTheWorld(world);
                     }
                     break;
                 case"s" :
-                    if (world.map[world.PLAYER.x][world.PLAYER.y - 1] == Tileset.FLOOR
-                            || world.map[world.PLAYER.x][world.PLAYER.y - 1] == Tileset.LOCKED_DOOR) {
+                    if (world.map[world.PLAYER.x][world.PLAYER.y - 1].description().equals("floor")
+                            || world.map[world.PLAYER.x][world.PLAYER.y - 1].description().equals("locked door")){
                         world.PLAYER = new Position(world.PLAYER.x, world.PLAYER.y - 1);
                         world.updateTheWorld(world);
                     }
                     break;
                 case "d":
-                    if (world.map[world.PLAYER.x + 1][world.PLAYER.y] == Tileset.FLOOR
-                            || world.map[world.PLAYER.x + 1][world.PLAYER.y] == Tileset.LOCKED_DOOR) {
+                    if (world.map[world.PLAYER.x + 1][world.PLAYER.y].description().equals("floor")
+                            || world.map[world.PLAYER.x + 1][world.PLAYER.y].description().equals("locked door")) {
                         world.PLAYER = new Position(world.PLAYER.x + 1, world.PLAYER.y);
                         world.updateTheWorld(world);
                     }

@@ -3,18 +3,18 @@ package byog.Core;
 import byog.TileEngine.TETile;
 
 import java.io.IOException;
+import java.util.Arrays;
 
 public class TestTwice {
     public static void main(String[] args) {
         Game g = new Game();
 
-        TETile[][] world1 = g.playWithInputString("N999SDDDWWWDDD:Q");
-        world1 = g.playWithInputString("LWWW");
+        TETile[][] world1 = g.playWithInputString("n5017254678959904157swdssswwawsdds");
         System.out.println(TETile.toString(world1));
-        TETile[][] world2 = g.playWithInputString("N999SDDDWWWDDD:Q");
-        world2 = g.playWithInputString("LWWW");
+        TETile[][] world2 = g.playWithInputString("n5017254678959904157swdssswwa:q");
+        world2 = g.playWithInputString("lwsdds");
         System.out.println(TETile.toString(world2));
-        System.out.println(world1.equals(world2));
+        System.out.println(Arrays.deepEquals(world1, world2));
     }
 
 }
