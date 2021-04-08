@@ -27,11 +27,13 @@ public class Game {
                 World world = mg.generateARandomWorld();
                 World.renderWorld(world);
                 playTheGame(world);
+                break;
             }
             if (option.equals("l")) {
                 World loadWorld = loadGame();
                 World.renderWorld(loadWorld);
-                playTheGame2(loadWorld);
+                playTheGame(loadWorld);
+                break;
             }
             option = solicitKeyboardInput();
         }
@@ -144,12 +146,12 @@ public class Game {
      *
      * @Source https://github.com/Joshmomel/CS61B/blob/master/proj2/byog/Core/Game.java line 149
      * */
-    public char waitForControlKey(World world) {
+    public String waitForControlKey(World world) {
         while (!StdDraw.hasNextKeyTyped()) {
             StdDraw.pause(10);
             mouseTile(world);
         }
-        return StdDraw.nextKeyTyped();
+        return ("" + StdDraw.nextKeyTyped()).toLowerCase(Locale.ROOT);
     }
 
     /**
@@ -196,7 +198,7 @@ public class Game {
     public void playTheGame(World world) throws IOException, ClassNotFoundException {
         // move the player until it reach the door
         while (true) {
-            String direction = ("" + waitForControlKey(world));
+            String direction = waitForControlKey(world);
             // move the PLAYER according to user's input
             // W-UP, A-LEFT, S-DOWN, D-RIGHT
             if (direction.equals("w")) {
@@ -221,44 +223,7 @@ public class Game {
                 StdDraw.setPenColor(StdDraw.WHITE);
                 StdDraw.text(40, 15, "You win!");
                 StdDraw.show();
-                break;
-            }
-        }
-    }
-
-    /**
-     * After generating a random world,
-     * user can use WASD to move the PLAYER tile
-     * until it reach the DOOR tile
-     * */
-    public void playTheGame2(World world) throws IOException, ClassNotFoundException {
-        // move the player until it reach the door
-        while (true) {
-            String direction = ("" + waitForControlKey(world));
-            // move the PLAYER according to user's input
-            // W-UP, A-LEFT, S-DOWN, D-RIGHT
-            if (direction.equals("w")) {
-                moveThePlayer(world, up);
-            }
-            if (direction.equals("a")) {
-                moveThePlayer(world, left);
-            }
-            if (direction.equals("s")) {
-                moveThePlayer(world, down);
-            }
-            if (direction.equals("d")) {
-                moveThePlayer(world, right);
-            }
-            if (direction.equals("q")) {
-                saveGame(world);
-                playWithKeyboard();
-            }
-            if (world.DOOR.equalsTo(world.PLAYER)) {
-                StdDraw.clear(StdDraw.RED);
-                StdDraw.setFont(new Font("Arial", Font.BOLD, 60));
-                StdDraw.setPenColor(StdDraw.WHITE);
-                StdDraw.text(40, 15, "You win!");
-                StdDraw.show();
+                StdDraw.disableDoubleBuffering();
                 break;
             }
         }
@@ -274,9 +239,11 @@ public class Game {
         int x = world.PLAYER.x;
         int y = world.PLAYER.y;
         // if this movement is valid
-        if (world.map[x + direction.x][y + direction.y] == Tileset.FLOOR) {
+        if (world.map[x + direction.x][y + direction.y].description().equals("floor")) {
+            world.map[x][y] = Tileset.FLOOR;
+            world.map[x + direction.x][y + direction.y] = Tileset.PLAYER;
             world.PLAYER = new Position(x + direction.x, y + direction.y);
-            world.updateTheWorld(world);
+
             // curX and curY represent current PLAYER's coordinate
             int curX = world.PLAYER.x;
             int curY = world.PLAYER.y;
@@ -284,7 +251,7 @@ public class Game {
             world.map[x][y].draw(x, y);
         }
         // if the player reaches the door
-        if (world.map[x + direction.x][y + direction.y] == Tileset.LOCKED_DOOR) {
+        if (world.map[x + direction.x][y + direction.y].description().equals("locked door")) {
             world.PLAYER = new Position(x + direction.x, y + direction.y);
             world.updateTheWorld(world);
             world.map[x][y].draw(x, y);
