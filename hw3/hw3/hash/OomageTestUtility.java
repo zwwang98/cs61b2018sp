@@ -1,7 +1,5 @@
 package hw3.hash;
 
-import org.junit.Test;
-
 import java.util.List;
 
 public class OomageTestUtility {
