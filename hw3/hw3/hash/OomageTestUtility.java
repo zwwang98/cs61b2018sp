@@ -1,5 +1,7 @@
 package hw3.hash;
 
+import org.junit.Test;
+
 import java.util.List;
 
 public class OomageTestUtility {
@@ -25,5 +27,9 @@ public class OomageTestUtility {
             }
         }
         return true;
+    }
+
+    public static void main(String[] args) {
+
     }
 }

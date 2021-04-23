@@ -45,6 +45,7 @@ public class SimpleOomage implements Oomage {
             /* the value is between 0-255, 255 / 5 = 51, and it is said that
             *  prime number is better in hashCode function, so I multiple it by 53
             * */
+            // @??? how to write a perfect hashCode function
             return red / 5 * 53 * 53 + green / 5 * 53 + blue / 5;
         }
     }

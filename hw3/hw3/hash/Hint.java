@@ -17,7 +17,7 @@ package hw3.hash;
  * 256^3 = 16777216
  * 256^4 = 4294967296
  * int range: -2,147,483,648 - 2,147,483,647
- * 256^4 is beyond the range and thus it prints out 0 (@??? but why?)
+ * 256^4 is beyond the range and thus it prints out 0
  *
  * Remember, in ComplexOomage.java, our hashCode() method multiples by 256 too,
  * so we could set our params' size larger than 4 (say 10), then if two ComplexOomage object

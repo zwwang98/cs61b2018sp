@@ -43,14 +43,14 @@ public class TestComplexOomage {
             // generate a List consisting of 10 integer values (0-255) randomly
             List<Integer> params = new ArrayList<>();
             for (int j = 0; j < 9; j++) {
-                int r = StdRandom.uniform(200, 255);
+                int r = StdRandom.uniform(0, 255);
                 params.add(r);
             }
             // use the randomly-generated List<Integer> params to construct a Oomage object
             Oomage o = new ComplexOomage(params);
             deadlyList.add(o);
         }
-        assertTrue(OomageTestUtility.haveNiceHashCodeSpread(deadlyList, 10));
+        assertTrue(OomageTestUtility.haveNiceHashCodeSpread(deadlyList, 100));
     }
 
     /** Calls tests for SimpleOomage. */

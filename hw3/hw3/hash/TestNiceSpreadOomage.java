@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.ArrayList;
 import edu.princeton.cs.algs4.StdRandom;
 
-public class TestNiceSpreadOomage {
+public class  TestNiceSpreadOomage {
     private static class NiceSpreadOomage implements Oomage {
         private int val;
 
