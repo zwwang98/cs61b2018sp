@@ -42,7 +42,7 @@ public class SimpleOomage implements Oomage {
             *  so when we have a hashtable who also has a multiple of 5 buckets, say 10,
             *  then our Oomage object will only go to two buckets, 0 and 5.
             *  So here, we divide each instance variable by 5. */
-            return red / 5 * 31 * 31 + green / 5 * 31 + blue / 5 * 31;
+            return red / 5 * 31 * 31 + green / 5 * 31 + blue / 5;
         }
     }
 

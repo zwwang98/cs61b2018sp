@@ -41,6 +41,10 @@ public class TestSimpleOomage {
             }
         }
 
+        // add a cast according to autograder
+        SimpleOomage ooA7 = new SimpleOomage(0, 0, 5);
+        SimpleOomage ooA8 = new SimpleOomage(0, 5, 0);
+        assertNotEquals(ooA7, ooA8);
     }
 
     @Test
