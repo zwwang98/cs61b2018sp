@@ -42,7 +42,10 @@ public class SimpleOomage implements Oomage {
             *  so when we have a hashtable who also has a multiple of 5 buckets, say 10,
             *  then our Oomage object will only go to two buckets, 0 and 5.
             *  So here, we divide each instance variable by 5. */
-            return red / 5 * 31 * 31 + green / 5 * 31 + blue / 5;
+            /* the value is between 0-255, 255 / 5 = 51, and it is said that
+            *  prime number is better in hashCode function, so I multiple it by 53
+            * */
+            return red / 5 * 53 * 53 + green / 5 * 53 + blue / 5;
         }
     }
 
