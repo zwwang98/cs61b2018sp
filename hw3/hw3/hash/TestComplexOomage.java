@@ -38,8 +38,9 @@ public class TestComplexOomage {
     public void testWithDeadlyParams() {
         List<Oomage> deadlyList = new ArrayList<>();
 
-        // add ten thousand Oomage objects into deadlyList
-        for (int i = 0; i < 21; i++) {
+        // add one thousand Oomage objects into deadlyList
+        // each Oomage object contains 10 integer values
+        for (int i = 0; i < 1000; i++) {
             // generate a List consisting of 10 integer values (0-255) randomly
             List<Integer> params = new ArrayList<>();
             for (int j = 0; j < 9; j++) {
